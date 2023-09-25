@@ -1,101 +1,36 @@
-# CasaOS (Edge) AppStore
 
-[![GitHub issues by-label](https://img.shields.io/github/issues/IceWhaleTech/CasaOS-AppStore/help%20wanted?label=help%20wanted&style=for-the-badge)](https://github.com/IceWhaleTech/CasaOS-AppStore/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) [![GitHub contributors](https://img.shields.io/github/contributors/IceWhaleTech/CasaOS-AppStore?style=for-the-badge)](https://github.com/IceWhaleTech/CasaOS-AppStore/graphs/contributors)
-
-[![Number of installs](https://visitly.paodayag.dev/edge.zip/badge?label=Installs)](https://visitly.paodayag.dev)
-
-CasaOS AppStore needs your help to grow:
-
-- See [CONTRIBUTING.md](https://github.com/IceWhaleTech/CasaOS-AppStore/blob/main/CONTRIBUTING.md) for how to contribute CasaOS Apps in Docker Compose format.
-- Check `help wanted` for which issues you can help with.
-
-Thank you!
+![Pancho Cloud App Store](https://raw.githubusercontent.com/WisdomSky/CasaOS-Coolstore/main/banner.png)
 
 ---
 
-### Support me by treating me to a cup of coffee 🥰
+## 🔥 Introduction
 
-[![Buy me a coffee](https://raw.githubusercontent.com/WisdomSky/CasaOS-Coolstore/main/buy-me-a-coffee.png)](https://www.buymeacoffee.com/wisdomsky)
+Introducing the Pancho Cloud VPS App Store, your one-stop destination for unlocking the full potential of your virtual private server. We understand that your VPS is a versatile platform with endless possibilities, and that's why we've curated a diverse collection of applications tailored to meet your every need. Whether you're a web developer, IT professional, or a business owner, our App Store offers a wide range of tools, from content management systems and development frameworks to security utilities and e-commerce platforms. With just a few clicks, you can enhance your VPS environment and streamline your projects, all while enjoying the convenience of easy installation and seamless integration.
 
-
----
-## 💡 Information
-
-This is an `Edge` version of the [Official CasaOS Appstore](https://github.com/IceWhaleTech/CasaOS-AppStore/blob/main/CONTRIBUTING.md). 
-
-This version of the CasaOS Appstore attempts to automatically update all the listed apps into their more recent (stable) versions if possible.
-
-The list will update every 24 hours.
-
-## 🚨 Disclaimer
-
-This appstore cannot guarantee that the newer version of an app it automatically resolved to is fully stable and working. 
-
-If there is a new update available, it is best to verify from other sources (reddit, github repo) first if the current (more recent) tag referenced in each app is safe to update to.
-
----
-
-## 🔥 Installation
-
-Unregister the Official CasaOS Appstore:
-
-    casaos-cli app-management unregister app-store 0
-
-Register the edge version of CasaOS appstore:
-
-    casaos-cli app-management register app-store https://casaos-appstore.paodayag.dev/edge.zip
-
-Done.
+What sets the Pancho Cloud VPS App Store apart is our commitment to providing you with high-quality, vetted applications that undergo rigorous testing to ensure compatibility and security. Plus, our user-friendly interface makes it effortless to discover, install, and manage the applications you need to succeed. Experience the power of choice and customization with the Pancho Cloud VPS App Store – your gateway to a more efficient and productive VPS hosting experience. Explore the possibilities today and watch your VPS server reach new heights of functionality and performance.
 
 
 ---
-## 🔃 Restoring back the Official CasaOS Appstore
 
-Get the assigned `ID` of the CasaOS Edge Appstore:
+### ❄ Appstore URL
 
-    casaos-cli app-management list app-stores
+ https://github.com/mypancho/Pancho-Cloud-App-Store/archive/refs/heads/main.zip
 
-Unregister the  CasaOS Edge Appstore:
+## ✅ Installation
 
-    casaos-cli app-management unregister app-store <casaos-edge-appstore-id>
+- Go to your mypancho.com cloud VPS dashboard.
 
-> NOTE: Replace `<casaos-edge-appstore-id>` with the corresponding `ID` of the CasaOS Edge Appstore.
+  ![Step 1](https://raw.githubusercontent.com/WisdomSky/CasaOS-LinuxServer-AppStore/main/tip-1.jpg)
 
-Register the Official CasaOS appstore:
+- Open the appstore and click `Add Source` button  located on the right just above the apps list.
 
-    casaos-cli app-management register app-store https://github.com/IceWhaleTech/CasaOS-AppStore/archive/refs/heads/main.zip
+  ![Step 2](https://raw.githubusercontent.com/WisdomSky/CasaOS-LinuxServer-AppStore/main/tip-2.jpg)
 
-Done.
+- Paste the appstore link `https://github.com/mypancho/Pancho-Cloud-App-Store/archive/refs/heads/main.zip` and then click `Add` to submit.
+
+  ![Step 3](https://raw.githubusercontent.com/WisdomSky/CasaOS-LinuxServer-AppStore/main/tip-3.jpg)
+
+- Wait for the installation to finish. Done!
+
 
 ---
-
-## 🛠 Troubleshooting
-
-* **I followed and run all the instructions but it seems not working**
-
-    **Solution:** 
-    
-    _Adding third-party appstores only works on CasaOS v0.4.4 and above._
-    
-    _Upgrade your CasaOS to at least [v0.4.4](https://blog.casaos.io/blog/23.html)_
-
-* **I receive an Error 404 Not found when running the register command.**
-
-    **Solution:**
-    
-    _It could be that your CasaOS is running on a port other than port `80`._ 
-    
-    _You need to tell the command which port your CasaOS is running by passing the `-u` flag together with the `host` and `port`._
-
-    _For example, if my CasaOS is running on port `90`:_
-
-        casaos-cli app-management register app-store https://casaos-appstore.paodayag.dev/edge.zip -u "localhost:90"
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
