@@ -1,0 +1,70 @@
+name: sickgear
+services:
+  app:
+    image: linuxserver/sickgear:3.29.10
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+        - container: /tv
+          description:
+            en_us: Path to TV shows - /tv
+        - container: /downloads
+          description:
+            en_us: Path to downloads - /downloads
+      ports:
+        - container: '8081'
+          description:
+            en_us: Webui - Default 8081
+    ports:
+      - target: 8081
+        published: 8081
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/sickgear/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/sickgear/tv
+        target: /tv
+      - type: bind
+        source: /DATA/AppData/sickgear/downloads
+        target: /downloads
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Provides management of TV shows and/or Anime, it detects new episodes, links downloader apps, and more. 
+  tagline:
+    en_us: TV show and Anime management tool facilitating episode detection.
+  developer: SickGear Team
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sickgear/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sickgear/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sickgear/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sickgear/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/sickgear/thumbnail.png
+  title:
+    en_us: Sickgear
+  category: Media
+  project_url: https://github.com/SickGear/SickGear
+  port_map: '8081'

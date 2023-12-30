@@ -1,0 +1,73 @@
+name: ghost
+services:
+  ghost-db:
+    container_name: ghost-db
+    hostname: ghost-db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=CrazyGoodDatabasePassword1337!
+    image: mysql:8
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/mysql
+        target: /var/lib/mysql
+    networks:
+      - ghost
+    privileged: false
+  
+  app:
+    container_name: ghost
+    hostname: ghost
+    depends_on:
+      - ghost-db
+    environment:
+      - NODE_ENV=production
+      - database__client=mysql
+      - database__connection__host=ghost-db
+      - database__connection__user=root
+      - database__connection__password=CrazyGoodDatabasePassword1337!
+      - database__connection__database=ghost
+    image: ghost:latest
+    ports:
+      - target: 2368
+        published: ${WEBUI_PORT:-2368}
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/content
+        target: /var/lib/ghost/content
+    networks:
+      - ghost
+    privileged: false
+
+networks:
+  ghost:
+    name: ghost
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Social Networking
+  description:
+    en_us: Free and open-source blogging platform.
+  developer: "Ghost"
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/ghost/icon.png
+  index: /
+  main: app
+  port_map: ${WEBUI_PORT:-2368}
+  scheme: http
+  tagline:
+    en_us: Free And Open-source Blogging Platform.
+  store_app_id: ghost-Panchocloud
+  title:
+    en_us: Ghost Blogging Platform
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/ghost/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/ghost/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/ghost/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/ghost/thumbnail.png

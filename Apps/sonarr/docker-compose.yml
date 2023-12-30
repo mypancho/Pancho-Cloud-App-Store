@@ -1,0 +1,44 @@
+name: sonarr
+services:
+  app:
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:4.0.0-develop
+    ports:
+      - target: 8989
+        published: ${WEBUI_PORT:-8989}
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/config
+        target: /config
+      - type: bind
+        source: /DATA/Media
+        target: /media
+    restart: unless-stopped
+    privileged: false
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Media
+  description:
+    en_us: Sonarr is an application that helps users manage and automate the download and organization of their favorite TV shows. With Sonarr, users can easily search and add their desired TV shows to a watchlist. The app then monitors various torrent and Usenet sources for new episodes and automatically downloads them once available. It also supports post-processing tasks like renaming, moving, and organizing downloaded episodes into a user-defined folder structure, ensuring a seamless viewing experience. Sonarr is a valuable tool for TV show enthusiasts who want a convenient and organized way to keep track of their favorite series.
+  developer: sonarr
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sonarr/icon.png
+  index: /
+  main: app
+  port_map: ${WEBUI_PORT:-8989}
+  scheme: http
+  tagline:
+    en_us: Sonarr is a popular open-source software application used for managing and automating the process of downloading, organizing, and tracking TV shows.
+  store_app_id: sonarr-Panchocloud
+  title:
+    en_us: Sonarr v4+
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sonarr/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sonarr/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sonarr/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sonarr/thumbnail.png

@@ -1,0 +1,56 @@
+name: vocechat
+services:
+  vocechat:
+    environment:
+      TZ: $TZ
+    image: privoce/vocechat-server:v0.3.38
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - target: 3000
+        published: "3009"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/home/vocechat-server/data
+        target: /home/vocechat-server/data
+    x-casaos:
+      envs:
+        - container: TZ
+          description:
+            en_us: TimeZone
+      ports:
+        - container: "3000"
+          description:
+            en_us: WebUI HTTP Port
+      volumes:
+        - container: /home/vocechat-server/data
+          description:
+            en_us: VoceChat Data
+    container_name: vocechat
+x-casaos:
+  architectures:
+    - amd64
+  main: vocechat
+  author: Mypancho.com
+  category: Chat
+  description:
+    en_us: As a top alternative to centralized chat services, Voce chat is a superlight Rust powered open-core chat app that prioritizes private hosting.
+  developer: Privoce
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/VoceChat/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/VoceChat/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/VoceChat/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/VoceChat/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/VoceChat/thumbnail.png
+  tagline:
+    en_us: Have a Private Social Space Hosted on Your Site
+  tips: {}
+  title:
+    en_us: VoceChat
+  index: /
+  port_map: "3009"

@@ -1,0 +1,49 @@
+name: hishtory-server
+services:
+  app:
+    image: linuxserver/hishtory-server:0.221.20230920
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      HISHTORY_POSTGRES_DB: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: HISHTORY_POSTGRES_DB
+          description:
+            en_us: Postgres DB Connection URI. Special characters must be URL encoded.
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: hiSHtory is a better shell history. It stores your shell history in context (what directory you ran the command in, whether it succeeded or failed, how long it took, etc). This is all stored locally and end-to-end encrypted for syncing to to all your other computers.
+  tagline:
+    en_us: Enhanced shell history with detailed contextual storage features.
+  developer: hishtoryserverteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hishtory-server/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hishtory-server/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hishtory-server/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hishtory-server/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hishtory-server/thumbnail.png
+  title:
+    en_us: Hishtory server
+  category: Utility
+  port_map: '8080'

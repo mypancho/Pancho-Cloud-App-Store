@@ -1,0 +1,65 @@
+name: boinc
+services:
+  app:
+    image: linuxserver/boinc:7.20.5
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      PASSWORD: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: PASSWORD
+          description:
+            en_us: Optionally set a password for the gui.
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+      ports:
+        - container: '8080'
+          description:
+            en_us: GUI Port - Default 8080
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+      - target: 8181
+        published: 8181
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/boinc/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: A platform for high-throughput computing on a large scale (thousands or millions of computers). It can be used for volunteer computing (using consumer devices) or grid computing (using organizational resources). It supports virtualized, parallel, and GPU-based applications.
+  tagline:
+    en_us: Scalable platform for extensive high-throughput computing across networks.
+  developer: Boincteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/boinc/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/boinc/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/boinc/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/boinc/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/boinc/thumbnail.png
+  title:
+    en_us: Boinc
+  category: LinuxServer.io
+  project_url: https://boinc.berkeley.edu/
+  port_map: '8080'

@@ -1,0 +1,64 @@
+name: hestiacp
+services:
+  app:
+    image: artsemkniazeu/hestiacp:1.0.1
+    restart: unless-stopped
+    environment:
+      TZ: $TZ
+    networks:
+      docnet:
+        ipv4_address: 10.1.1.0
+    ports:
+      - target: 8083
+        published: 8083
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /hestia
+      - type: bind
+        source: /DATA/AppData/$AppID/home
+        target: /home
+      - type: bind
+        source: /DATA/AppData/$AppID/backup
+        target: /backup
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+      - DAC_READ_SEARCH
+networks:
+  docnet:
+    name: docnet
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.0.0/16
+          ip_range: 10.1.1.0/24
+          gateway: 10.1.0.1
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: Hestia Control Panel (HestiaCP) is an open-source web hosting control panel that allows users to manage their websites, domains, email accounts, databases, and more. It provides a user-friendly interface for managing web hosting environments and simplifies various administrative tasks.
+  tagline:
+    en_us: Open-source control panel for web hosting management simplifying administrative tasks.
+  developer: artsemkniazeu
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hestiacp/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hestiacp/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hestiacp/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/hestiacp/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/hestiacp/thumbnail.png
+  tips:
+    before_install:
+      en_us: |
+        Default `username` is `admin` and the default password can be found inside the `/DATA/AppData/hestiacp/config/root/password.txt` file.
+  title:
+    en_us: Hestia CP
+  category: Utility
+  port_map: '8083'

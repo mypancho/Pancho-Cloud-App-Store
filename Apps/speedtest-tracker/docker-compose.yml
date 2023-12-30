@@ -1,0 +1,82 @@
+name: speedtest-tracker
+services:
+  db:
+    image: mariadb:10
+    restart: always
+    environment:
+        - MARIADB_DATABASE=speedtest_tracker
+        - MARIADB_USER=speedy
+        - MARIADB_PASSWORD=speedy
+        - MARIADB_RANDOM_ROOT_PASSWORD=true
+    volumes:
+        - /DATA/AppData/Panchocloud/$AppID/mysql:/var/lib/mysql
+    networks:
+      - speedtest-tracker
+
+  app:
+    container_name: speedtest-tracker
+    image: ghcr.io/alexjustesen/speedtest-tracker:latest
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=speedtest_tracker
+      - DB_USERNAME=speedy
+      - DB_PASSWORD=speedy
+      - TZ=$TZ
+    depends_on:
+      - db
+    ports:
+      - target: 80
+        published: ${WEBUI_PORT:-80}
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/config
+        target: /config
+    restart: unless-stopped
+    networks:
+      - speedtest-tracker
+    privileged: false
+
+networks:
+  speedtest-tracker:
+    name: speedtest-tracker
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Utility
+  description:
+    en_us: Speedtest Tracker is a privately hosted application for tracking internet performance. It conducts speedtest checks using Ookla's Speedtest service. This self-hosted solution allows users to monitor and measure their internet speed accurately. Speedtest Tracker empowers individuals and businesses to gain insights into their network performance, ensuring optimal connection and productivity. With its integration with Ookla's Speedtest service, users can trust the reliability and accuracy of the results. Enhancing internet performance tracking, Speedtest Tracker serves as a valuable tool for maintaining a smooth and efficient online experience.
+  developer: alexjustesen
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/speedtest-tracker/icon.png
+  index: /
+  main: app
+  port_map: ${WEBUI_PORT:-80}
+  scheme: http
+  tagline:
+    en_us: Speedtest Tracker is a self-hosted app tracking internet performance.
+  store_app_id: speedtest-tracker-Panchocloud
+  tips:
+    before_install:
+      en_us: |
+          **Login information:**
+          Username: `admin@example.com`
+          Password: `password`
+    en_us: |
+      **Login information:**
+      Username: `admin@example.com`
+      Password: `password`
+  title:
+    en_us: Speedtest Tracker
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/speedtest-tracker/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/speedtest-tracker/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/speedtest-tracker/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/speedtest-tracker/thumbnail.png

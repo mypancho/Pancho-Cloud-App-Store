@@ -1,0 +1,40 @@
+name: minecraft
+services:
+  app:
+    image: itzg/minecraft-server:2023.9.1
+    environment:
+      EULA: true
+    x-casaos:
+      envs:
+        - container: EULA
+          description:
+            en_us: ''
+    ports:
+      - target: 25565
+        published: 25565
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/data
+        target: /data
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: This docker image provides a Minecraft Server that will automatically download the latest stable version at startup. You can also run/upgrade to any specific version or the latest snapshot.
+  tagline:
+    en_us: Docker image for automated Minecraft server installation and updates.
+  developer: itzg
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/minecraft/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/minecraft/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/minecraft/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/minecraft/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/minecraft/thumbnail.png
+  title:
+    en_us: Minecraft Server
+  category: Gaming

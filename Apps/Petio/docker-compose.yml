@@ -1,0 +1,86 @@
+name: petio
+services:
+  petio:
+    image: ghcr.io/petio-team/petio@sha256@undefined
+    restart: unless-stopped
+    networks:
+      - petio-network
+    depends_on:
+      - mongo
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use.
+      volumes:
+        - container: /app/api/config
+          description:
+            en_us: Contains the config file.
+        - container: /app/logs
+          description:
+            en_us: Contains the petio logs.
+      ports:
+        - container: "7777"
+          description:
+            en_us: WebUI Port
+    ports:
+      - target: 7777
+        published: "7777"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/petio/config
+        target: /app/api/config
+      - type: bind
+        source: /DATA/AppData/Panchocloud/petio/logs
+        target: /app/logs
+    container_name: petio-petio
+  mongo:
+    image: mongo:7.0.1
+    restart: unless-stopped
+    hostname: mongo
+    networks:
+      - petio-network
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    container_name: petio-mongo
+networks:
+  petio-network:
+    driver: bridge
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: petio
+  description:
+    en_us: |
+      Petio is a third party companion app available to Plex server owners to allow their users to request, review and discover content. The app is built to appear instantly familiar and intuitive to even the most tech-agnostic users. Petio will help you manage requests from your users, connect to other third party apps such as Sonarr and Radarr, notify users when content is available and track request progress. Petio also allows users to discover media both on and off your server, quickly and easily find related content and review to leave their opinion for other users.
+
+      Petio is an ongoing, forever free, always evolving project currently in alpha prototype stage and now available!
+  tagline:
+    en_us: A third party companion app available to Plex server owners to allow their users to request, review and discover content.
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Petio/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Petio/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Petio/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Petio/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Petio/thumbnail.png
+  developer: Petio Team
+  author: Mypancho.com
+  title:
+    en_us: Petio
+  category: Media
+  port_map: "7777"

@@ -1,0 +1,80 @@
+name: filebrowser
+services:
+  filebrowser:
+    environment:
+      PGID: $PGID
+      PUID: $PUID
+      TZ: $TZ
+    image: filebrowser/filebrowser:v2.25.0
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - target: 80
+        published: "10180"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/db
+        target: /db
+      - type: bind
+        source: /DATA
+        target: /srv
+    x-casaos:
+      envs:
+        - container: TZ
+          description:
+            en_us: TimeZone
+            zh_cn: 时区
+        - container: PUID
+          description:
+            en_us: Run FileBrowser as specified uid.
+        - container: PGID
+          description:
+            en_us: Run FileBrowser as specified gid.
+      ports:
+        - container: "80"
+          description:
+            en_us: WebUI Port
+      volumes:
+        - container: /db
+          description:
+            en_us: FileBrowser database directory.
+        - container: /srv
+          description:
+            en_us: FileBrowser managed directory.
+    container_name: filebrowser
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+    - arm
+  main: filebrowser
+  author: Mypancho.com
+  category: Cloud
+  description:
+    en_us: File Browser - Webbased File Browser including sharing functions etc.
+  developer: File Browser
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/FileBrowser/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/FileBrowser/screenshot-1.png
+    - https    ://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/FileBrowser/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/FileBrowser/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/FileBrowser/thumbnail.png
+  tagline:
+    en_us: Upload, delete, preview, rename, edit and share your files.
+  tips:
+    before_install:
+      en_us: |
+        Default Account
+
+        | Username | Password |
+        | -------- | -------- |
+        | `admin`    | `admin`    |
+  title:
+    en_us: FileBrowser
+  index: /
+  port_map: "10180"

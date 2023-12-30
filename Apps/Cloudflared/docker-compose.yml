@@ -1,0 +1,46 @@
+name: cloudflared
+services:
+  cloudflared:
+    image: wisdomsky/cloudflared-web:2023.8.2
+    restart: unless-stopped
+    network_mode: host
+    x-casaos:
+      volumes:
+        - container: /config
+          description:
+            en_us: Contains config file where cloudflare token is stored.
+      ports:
+        - container: "14333"
+          description:
+            en_us: Token Setup WebUI
+    ports:
+      - target: 14333
+        published: "14333"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/casaos-cloudflared/config
+        target: /config
+    container_name: cloudflared
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: cloudflared
+  description:
+    en_us: Cloudflare Tunnel offers an easy way to expose web servers securely to the internet, without opening up firewall ports and configuring ACLs. Cloudflare Tunnel also ensures requests route through Cloudflare before reaching the web server, so you can be sure attack traffic is stopped with Cloudflare’s WAF and Unmetered DDoS mitigation, and authenticated with Access if you’ve enabled those features for your account.
+  tagline:
+    en_us: A tunneling daemon by Cloudflare that safely exposes your web servers into the internet.
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Cloudflared/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Cloudflared/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Cloudflared/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Cloudflared/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Cloudflared/thumbnail.png
+  developer: Cloudflare Inc.
+  author: Mypancho.com
+  category: Developer
+  title:
+    en_us: Cloudflared
+  port_map: "14333"

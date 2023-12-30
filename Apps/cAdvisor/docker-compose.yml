@@ -1,0 +1,63 @@
+# Configuration for cAdvisor setup
+name: cAdvisor
+
+# Service definitions for the cAdvisor application
+services:
+  # Service for cAdvisor, a tool to monitor container performance
+  app:
+    # Docker image to be used for cAdvisor
+    image: gcr.io/cadvisor/cadvisor:latest
+    # Name of the container instance
+    container_name: monitoring_cadvisor
+    # Restart policy - Restart the container unless it's stopped manually
+    restart: unless-stopped
+    # List of device mappings between host and container
+    devices:
+      # Map the host's kernel message log to the container
+      - "/dev/kmsg:/dev/kmsg"
+    # Volumes to be mounted to the container
+    volumes:
+      # Mount the root directory of the host in a read-only mode
+      - /:/rootfs:ro
+      # Mount the var run directory of the host in a read-write mode
+      - /var/run:/var/run:rw
+      # Mount Docker socket to allow cAdvisor to monitor other containers
+      - /var/run/cadvisor.sock:/var/run/cadvisor.sock:rw
+      # Mount system directory of the host in a read-only mode for system metrics
+      - /sys:/sys:ro
+      # Mount Docker library directory in a read-only mode
+      - /var/lib/cadvisor/:/var/lib/cadvisor:ro
+      # Mount the disk directory of the host in a read-only mode for disk metrics
+      - /dev/disk/:/dev/disk:ro
+    # Ports to be exposed from the container
+    expose:
+      # Expose port 8080 from the container
+      - 8080
+    # Port mappings between host and container
+    ports:
+      # Map port 8085 of the host to port 8080 of the container
+      - 8085:8080
+
+# CasaOS specific configuration
+x-casaos:
+  architectures: # Supported CPU architectures
+    - amd64
+    - arm
+    - arm64
+  main: app # Main service of the application
+  description:
+    en_us: cAdvisor (Container Advisor) is a daemon that offers container users insights on their running containers' resource usage and performance traits. It collects, aggregates, processes, and exports essential information about the containers. With cAdvisor, users gain a comprehensive understanding of how their containers utilize resources and perform. # Description in English
+  tagline:
+    en_us: cAdvisor offers container users insights on resources usage and performance # Short description or tagline in English
+  developer: "cAdvisor" # Developer's name or identifier
+  author: Mypancho.com # Author of this configuration
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/cAdvisor/icon.png # Icon for the application
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/cAdvisor/screenshot-1.PNG
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/cAdvisor/screenshot-2.PNG
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/cAdvisor/screenshot-3.PNG
+  thumbnail: "https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/cAdvisor/thumbnail.PNG" # Thumbnail image
+  title:
+    en_us: cAdvisor # Title in English
+  category: Containers # Application category
+  port_map: "8085" # Port mapping information

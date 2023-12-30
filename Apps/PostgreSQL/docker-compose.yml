@@ -1,0 +1,81 @@
+name: postgresql
+services:
+  postgresql:
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      POSTGRES_USER: casaos
+      POSTGRES_PASSWORD: casaos
+      POSTGRES_DB: casaos
+    image: postgres:16.0
+    deploy:
+      resources:
+        reservations:
+          memory: 2048M
+    restart: unless-stopped
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: POSTGRES_DB
+          description:
+            en_us: Specify the name of a database to be created on image startup.
+        - container: POSTGRES_USER
+          description:
+            en_us: Postgres server username
+        - container: POSTGRES_PASSWORD
+          description:
+            en_us: Postgres server password
+      volumes:
+        - container: /var/lib/postgresql/data
+          description:
+            en_us: Directory where Postgres database data is stored
+    ports:
+      - target: 5432
+        published: "5432"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/postgresql/data
+        target: /var/lib/postgresql/data
+    container_name: postgresql
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: |
+      PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
+
+      PostgreSQL is a highly stable database backed by more than 20 years of development by the open-source community.
+
+      PostgreSQL is used as a primary database for many web applications as well as mobile and analytics applications.
+  tagline:
+    en_us: PostgreSQL is an advanced, enterprise-class, and open-source relational database system. PostgreSQL supports both SQL (relational) and JSON (non-relational) querying.
+  developer: PostgreSQL Global Dev't Group
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/PostgreSQL/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/PostgreSQL/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/PostgreSQL/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/PostgreSQL/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/PostgreSQL/thumbnail.png
+  tips:
+    before_install:
+      en_us: |
+        Default user: `casaos`
+        Default password: `casaos`
+        Default database: `casaos`
+  title:
+    en_us: PostgreSQL
+  category: Developer

@@ -1,0 +1,65 @@
+name: memos
+services:
+  memos:
+    environment:
+      PGID: $PGID
+      PUID: $PUID
+      TZ: $TZ
+    image: neosmemo/memos:0.15.2
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - target: 5230
+        published: "5230"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/memos/memos
+        target: /var/opt/memos
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: ""
+        - container: PGID
+          description:
+            en_us: ""
+        - container: TZ
+          description:
+            en_us: timezone
+      ports:
+        - container: "5230"
+          description:
+            en_us: WebUI HTTP Port
+      volumes:
+        - container: /var/opt/memos
+          description:
+            en_us: memos data directory.
+    container_name: memos
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+    - arm
+  main: memos
+  author: Mypancho.com
+  category: Notes
+  description:
+    en_us: Memos is a lightweight, self-hosted memo hub. Open Source and Free forever.
+  developer: usememos Team
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Memos/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Memos/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Memos/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Memos/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Memos/thumbnail.png
+  tagline:
+    en_us: Memos is a lightweight, self-hosted memo hub. Open Source and Free forever.
+  tips: {}
+  title:
+    en_us: Memos
+  port_map: "5230"

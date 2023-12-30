@@ -1,0 +1,45 @@
+name: acunetix
+services:
+  acunetix:
+    image: quay.io/hiepnv/acunetix:15.2
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    restart: unless-stopped
+    ports:
+      - 3443:3443
+    x-casaos:
+      ports:
+        - container: "3443"
+          description:
+            en_us: Acunetix Web UI  Port
+    container_name: acunetix
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Utility
+  description:
+    en_us: Acunetix is an end-to-end web security scanner that offers a 360 view of an organization's security.
+  developer: Invicti
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/acunetix/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/acunetix/screenshot-1.PNG
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/acunetix/screenshot-2.PNG
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/acunetix/screenshot-3.PNG
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/acunetix/thumbnail.PNG
+  tagline:
+    en_us: Acunetix provides comprehensive web security scanning for organizations.
+  index: /
+  port_map: "3443"
+  scheme: https
+  tips:
+    custom: |-
+      默认账号：admin@acu.com
+      默认密码：Passw0rd!
+      登录后，请及时修改密码！！！
+  title:
+    custom: acunetix
