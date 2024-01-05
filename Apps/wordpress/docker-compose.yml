@@ -1,7 +1,7 @@
 # Configuration for big-bear-wordpress setup
 
 # Name of the big-bear-wordpress application
-name: big-bear-wordpress
+name: wordpress-cms
 
 # Service definitions for the wordpress application
 services:
@@ -43,11 +43,11 @@ x-casaos:
     en_us: Initially started as a blogging tool in 2003, it has evolved into a highly flexible CMS that powers over 40% of the web (as of my last training data in 2022).
   tagline:
     # Short description or tagline in English
-    en_us: WordPress
+    en_us: WordPress is a popular CMS platform
   # Developer's name or identifier
   developer: "Automattic"
   # Author of this configuration
-  author: BigBearTechWorld
+  author: Authomatic
   # Icon for the application
   icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/wordpress.png
   # Thumbnail image (currently empty)
@@ -56,6 +56,6 @@ x-casaos:
     # Title in English
     en_us: WordPress
   # Application category
-  category: BigBearCasaOS
+  category: CMS
   # Port mapping information
   port_map: "8080"
