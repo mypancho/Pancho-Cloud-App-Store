@@ -1,7 +1,7 @@
 name: nginxproxymanager
 services:
   nginxproxymanager:
-    image: jc21/nginx-proxy-manager:2.10.4
+    image: mypancho/domain-manager:09-20-2023
     deploy:
       resources:
         reservations:
