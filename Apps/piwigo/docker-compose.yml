@@ -1,0 +1,53 @@
+name: piwigo
+services:
+  app:
+    image: linuxserver/piwigo:13.8.0
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/piwigo/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/piwigo/gallery
+        target: /gallery
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: A photo gallery software for the web that comes with powerful features to publish and manage your collection of pictures.
+  tagline:
+    en_us: Web photo gallery software with robust publishing and management features.
+  developer: piwigoteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/piwigo/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/piwigo/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/piwigo/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/piwigo/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/piwigo/thumbnail.png
+  title:
+    en_us: Piwigo
+  category: Media
+  project_url: http://piwigo.org/
+  port_map: '80'

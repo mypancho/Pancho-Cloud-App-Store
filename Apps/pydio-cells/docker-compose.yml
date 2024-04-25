@@ -1,0 +1,72 @@
+name: pydio-cells
+services:
+  app:
+    image: linuxserver/pydio-cells:4.2.7
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      EXTERNALURL: ''
+      SERVER_IP: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: EXTERNALURL
+          description:
+            en_us: The external url you would like to use to access Pydio Cells (Can be https://domain.url or https://IP:PORT).
+        - container: SERVER_IP
+          description:
+            en_us: Enter the LAN IP of the docker server. Required for local access by IP, added to self signed cert as SAN (not required if accessing only through reverse proxy).
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+      ports:
+        - container: '8080'
+          description:
+            en_us: 'Container Port: 8080'
+        - container: '33060'
+          description:
+            en_us: 'Container Port: 33060'
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+      - target: 33060
+        published: 33060
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/pydio-cells/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: The nextgen file sharing platform for organizations. It is a full rewrite of the Pydio project using the Go language following a micro-service architecture.
+  tagline:
+    en_us: Organizational file sharing platform, rewritten in Go with microservices.
+  developer: Pydio team
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/pydio-cells/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/pydio-cells/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/pydio-cells/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/pydio-cells/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/pydio-cells/thumbnail.png
+  title:
+    en_us: Pydio cells
+  category: Utility
+  project_url: https://pydio.com/
+  port_map: '8080'
