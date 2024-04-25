@@ -1,0 +1,37 @@
+name: websync
+services:
+  app:
+    image: furier/websync:latest
+    restart: unless-stopped
+    working_dir: /src
+    command:
+      - node
+      - server.js
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/websync/data
+        target: /data
+x-casaos:
+  architectures:
+    - amd64
+  main: app
+  description:
+    en_us: Websync is intended to be an rsync task manager, where rsync tasks can be added, scheduled and maintained in a sane manner.
+  tagline:
+    en_us: Manage, schedule, and maintain rsync tasks efficiently.
+  developer: furier
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/websync/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/websync/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/websync/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/websync/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/websync/thumbnail.png
+  title:
+    en_us: Web Sync (RSync)
+  category: Utility
+  port_map: '3000'
