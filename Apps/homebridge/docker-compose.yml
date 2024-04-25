@@ -1,0 +1,48 @@
+name: homebridge
+services:
+  app:
+    image: oznu/homebridge:2023-01-08
+    restart: unless-stopped
+    environment:
+      PGID: $PGID
+      PUID: $PUID
+      ENABLE_AVAHI: 1
+      TZ: $TZ
+    network_mode: host
+    x-casaos:
+      envs:
+        - container: PGID
+          description:
+            en_us: ''
+        - container: PUID
+          description:
+            en_us: ''
+        - container: TZ
+          description:
+            en_us: ''
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/config
+        target: /homebridge
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: Homebridge allows you to integrate with smart home devices that do not natively support HomeKit. There are over 2,000 Homebridge plugins supporting thousands of different smart accessories.
+  tagline:
+    en_us: Homebridge integrates non-HomeKit smart devices with HomeKit support.
+  developer: oznu
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/homebridge/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/homebridge/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/homebridge/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/homebridge/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/homebridge/thumbnail.png
+  title:
+    en_us: Homebridge
+  category: Utility
+  port_map: '8581'

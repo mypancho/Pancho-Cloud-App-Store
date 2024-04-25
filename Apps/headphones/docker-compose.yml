@@ -1,0 +1,44 @@
+name: headphones
+services:
+  app:
+    container_name: headphones
+    image: lscr.io/linuxserver/headphones:latest
+    ports:
+      - target: 8181
+        published: ${WEBUI_PORT:-8181}
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/TMC-Store/$AppID/config
+        target: /config
+      - type: bind
+        source: /DATA/Media
+        target: /media
+    restart: unless-stopped
+    privileged: false
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Music & Audio
+  description:
+    en_us: Headphones is a Python-based music downloader that automates the process of downloading music from NZB and Torrent sources. It includes support for various platforms such as SABnzbd, NZBget, Transmission, µTorrent, Deluge, and Blackhole.
+  developer: headphones
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/headphones/icon.png
+  index: /
+  main: app
+  port_map: ${WEBUI_PORT:-8181}
+  scheme: http
+  tagline:
+    en_us: Headphones automates music downloading via ZNB and Torrent.
+  store_app_id: headphones-Panchocloud
+  title:
+    en_us: Headphones
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/headphones/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/headphones/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/headphones/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/mariosemes/CasaOS-TMCstore@main/Apps/headphones/thumbnail.png
