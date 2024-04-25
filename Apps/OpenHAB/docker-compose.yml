@@ -1,0 +1,85 @@
+name: openhab
+services:
+  openhab:
+    environment:
+      CRYPTO_POLICY: unlimited
+      PGID: $PGID
+      PUID: $PUID
+    image: openhab/openhab:4.1.0-snapshot-alpine
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/addons
+        target: /opt/openhab/addons
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/conf
+        target: /opt/openhab/conf
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/userdata
+        target: /opt/openhab/userdata
+    x-casaos:
+      envs:
+        - container: CRYPTO_POLICY
+          description:
+            en_us: Crypto Policy
+        - container: PUID
+          description:
+            en_us: Run OpenHAB as specified uid.
+        - container: PGID
+          description:
+            en_us: Run OpenHAB as specified gid.
+      volumes:
+        - container: /etc/localtime
+          description:
+            en_us: Ties the time of the container to the host's time, read only so the container cannot change the host's time.
+        - container: /etc/timezone
+          description:
+            en_us: Ties the timezone of the container to the host's time zone, read only so the container cannot change the host's time zone.
+        - container: /opt/openhab/addons
+          description:
+            en_us: Only needed if installing addons unavailable via UI or the Karaf Console.
+        - container: /opt/openhab/conf
+          description:
+            en_us: |
+              Location of the conf folder for openHAB configurations (Note: you must create these folders on the host before running the container).
+        - container: /opt/openhab/userdata
+          description:
+            en_us: Location for logs, cache, persistence databases, etc.
+    container_name: openhab
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+    - arm
+  main: openhab
+  author: Mypancho.com
+  category: Home Automation
+  description:
+    en_us: The open Home Automation Bus (openHAB, pronounced ˈəʊpənˈhæb) is an open source, technology agnostic home automation platform which runs as the center of your smart home! Its ability to integrate a multitude of other devices and systems. openHAB includes other home automation systems, (smart) devices and other technologies into a single solution. To provide a uniform user interface and a common approach to automation rules across the entire system, regardless of the number of manufacturers and sub-systems involved. Giving you the most flexible tool available to make almost any home automation wish come true; if you can think it, odds are that you can implement it with openHAB.
+  developer: openHAB
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/OpenHAB/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/OpenHAB/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/OpenHAB/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/OpenHAB/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/OpenHAB/thumbnail.png
+  tagline:
+    en_us: Empowering the smart home  
+  tips: {}
+  title:
+    en_us: OpenHAB
+  index: /
+  port_map: "8080"
