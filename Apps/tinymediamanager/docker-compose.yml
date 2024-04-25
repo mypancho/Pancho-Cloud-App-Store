@@ -1,0 +1,55 @@
+name: tinymediamanager
+services:
+  tinymediamanager:
+    environment:
+      GROUP_ID: "0"
+      USER_ID: "0"
+      TZ: Asia/Hong_Kong
+    image: tinymediamanager/tinymediamanager:5-test
+    container_name: tinymediamanager
+    deploy:
+      resources:
+        reservations:
+          memory: "1024M"
+    network_mode: bridge
+    ports:
+      - target: 4000
+        published: "4000"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/tinymediamanager/config
+        target: /config
+      - type: bind
+        source: /DATA/Media
+        target: /DATA/Media
+      - type: bind
+        source: /media
+        target: /media
+      - type: bind
+        source: /mnt
+        target: /mnt
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  author: Mypancho.com
+  category: Media
+  description:
+    en_us: tinyMediaManager is a media management tool written in Java/Swing. It is designed to provide a simple and intuitive interface for organizing and managing your media collection.
+  developer: tinyMediaManager
+  main: tinymediamanager
+  tagline:
+    en_us: Java-based media management application for media through a user-friendly interface.
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/tinymediamanager/icon.png
+  screenshot_link:
+    - https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/tinymediamanager/screenshot-1.PNG
+    - https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/tinymediamanager/screenshot-2.PNG
+    - https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/tinymediamanager/screenshot-3.PNG
+  thumbnail: https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/tinymediamanager/thumbnail.PNG
+  tips:
+  title:
+    en_us: tinyMediaManager
+  port_map: "4000"
+  scheme: http
