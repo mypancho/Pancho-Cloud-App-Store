@@ -1,0 +1,64 @@
+name: mstream
+services:
+  app:
+    image: linuxserver/mstream:5.11.4
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+        - container: /music
+          description:
+            en_us: Path to music library
+      ports:
+        - container: '3000'
+          description:
+            en_us: Webui Port
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/mstream/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/mstream/music
+        target: /music
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: A personal music streaming server. You can use mStream to stream your music from your home computer to any device, anywhere. There are mobile apps available for both Android and iPhone.
+  tagline:
+    en_us: mStream enables personal music streaming from your computer to anywhere.
+  developer: Mstreamteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mstream/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mstream/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mstream/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mstream/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mstream/thumbnail.png
+  title:
+    en_us: Mstream
+  category: Media
+  project_url: https://www.mstream.io/
+  port_map: '3000'

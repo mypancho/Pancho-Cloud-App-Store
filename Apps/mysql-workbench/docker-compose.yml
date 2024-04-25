@@ -47,12 +47,12 @@ x-casaos:
     en_us: MySQL Workbench - Comprehensive visual tool for database management.
   developer: Workbench
   author: Mypancho.com
-  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mysql-workbench/icon.png
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mysql-workbench/icon.png
   screenshot_link:
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mysql-workbench/screenshot-1.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mysql-workbench/screenshot-2.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mysql-workbench/screenshot-3.png
-  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mysql-workbench/thumbnail.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mysql-workbench/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mysql-workbench/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mysql-workbench/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mysql-workbench/thumbnail.png
   title:
     en_us: Mysql workbench
   category: Utility

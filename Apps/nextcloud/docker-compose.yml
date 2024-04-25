@@ -1,0 +1,211 @@
+name: nextcloud
+services:
+  db:
+    image: mariadb:10.5
+    container_name: nextcloud-db
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_USER=nextcloud
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/mysql
+        target: /var/lib/mysql
+    networks:
+      - nextcloud
+    privileged: false
+
+  redis:
+    image: redis:6-alpine
+    container_name: nextcloud-redis
+    environment:
+      - TZ=Europe/Paris
+    restart: always
+    networks:
+      - nextcloud
+    privileged: false
+  
+  msmtpd:
+    image: crazymax/msmtpd:latest
+    container_name: nextcloud-msmtpd
+    environment:
+      - SMTP_AUTH=on
+      - SMTP_FROM=foo@gmail.com
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PASSWORD=bar
+      - SMTP_PORT=587
+      - SMTP_STARTTLS=on
+      - SMTP_TLS=on
+      - SMTP_TLS_CHECKCERT=on
+      - SMTP_USER=foo
+      - TZ=Europe/Paris
+      - HSTS_HEADER=max-age=15768000; includeSubDomains
+      - LOG_IP_VAR=remote_addr
+      - MEMORY_LIMIT=512M
+      - OPCACHE_MEM_SIZE=128
+      - REAL_IP_FROM=0.0.0.0/32
+      - REAL_IP_HEADER=X-Forwarded-For
+      - RP_HEADER=strict-origin
+      - UPLOAD_MAX_SIZE=512M
+    restart: always
+    networks:
+      - nextcloud
+    privileged: false
+
+  nextcloud:
+    image: crazymax/nextcloud:latest
+    container_name: nextcloud
+    depends_on:
+      - db
+      - msmtpd
+      - redis
+    environment:
+      - TZ=$TZ
+      - PGID=$PGID
+      - PUID=$PUID
+      - APC_SHM_SIZE=128M
+      - DB_HOST=nextcloud-db
+      - DB_NAME=nextcloud
+      - DB_PASSWORD=nextcloud
+      - DB_TYPE=mysql
+      - DB_USER=nextcloud
+      - HSTS_HEADER=max-age=15768000; includeSubDomains
+      - LOG_IP_VAR=remote_addr
+      - MEMORY_LIMIT=512M
+      - OPCACHE_MEM_SIZE=128
+      - REAL_IP_FROM=0.0.0.0/32
+      - REAL_IP_HEADER=X-Forwarded-For
+      - RP_HEADER=strict-origin
+      - UPLOAD_MAX_SIZE=512M
+    ports:
+      - target: 8000
+        published: ${WEBUI_PORT:-8000}
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/data
+        target: /data
+    networks:
+      - nextcloud
+    privileged: false
+  
+  cron:
+    image: crazymax/nextcloud:latest
+    container_name: nextcloud-cron
+    depends_on:
+      - nextcloud
+    environment:
+      - CRON_PERIOD=*/5 * * * *
+      - SIDECAR_CRON=1
+      - TZ=Europe/Paris
+      - HSTS_HEADER=max-age=15768000; includeSubDomains
+      - LOG_IP_VAR=remote_addr
+      - MEMORY_LIMIT=512M
+      - OPCACHE_MEM_SIZE=128
+      - REAL_IP_FROM=0.0.0.0/32
+      - REAL_IP_HEADER=X-Forwarded-For
+      - RP_HEADER=strict-origin
+      - UPLOAD_MAX_SIZE=512M
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/data
+        target: /data
+    networks:
+      - nextcloud
+    privileged: false
+  
+  previewgen:
+    image: crazymax/nextcloud:latest
+    container_name: nextcloud-previewgen
+    depends_on:
+      - nextcloud
+    environment:
+      - PREVIEWGEN_PERIOD=0 * * * *
+      - SIDECAR_PREVIEWGEN=1
+      - TZ=Europe/Paris
+      - HSTS_HEADER=max-age=15768000; includeSubDomains
+      - LOG_IP_VAR=remote_addr
+      - MEMORY_LIMIT=512M
+      - OPCACHE_MEM_SIZE=128
+      - REAL_IP_FROM=0.0.0.0/32
+      - REAL_IP_HEADER=X-Forwarded-For
+      - RP_HEADER=strict-origin
+      - UPLOAD_MAX_SIZE=512M
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/mysql
+        target: /var/lib/mysql
+    networks:
+      - nextcloud
+    privileged: false
+
+  news_updater:
+    image: crazymax/nextcloud:latest
+    container_name: nextcloud-news-updater
+    depends_on:
+      - nextcloud
+    environment:
+      - NC_NEWSUPDATER_INTERVAL=900
+      - NC_NEWSUPDATER_LOGLEVEL=error
+      - NC_NEWSUPDATER_THREADS=10
+      - NC_NEWSUPDATER_TIMEOUT=300
+      - SIDECAR_NEWSUPDATER=1
+      - TZ=Europe/Paris
+      - HSTS_HEADER=max-age=15768000; includeSubDomains
+      - LOG_IP_VAR=remote_addr
+      - MEMORY_LIMIT=512M
+      - OPCACHE_MEM_SIZE=128
+      - REAL_IP_FROM=0.0.0.0/32
+      - REAL_IP_HEADER=X-Forwarded-For
+      - RP_HEADER=strict-origin
+      - UPLOAD_MAX_SIZE=512M
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/mysql
+        target: /var/lib/mysql
+    networks:
+      - nextcloud
+    privileged: false
+
+networks:
+  nextcloud:
+    name: nextcloud
+    
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: nextcloud
+  author: Mypancho.com
+  category: Cloud Storage
+  description: 
+    en_us: |
+      Nextcloud is a software suite that enables the creation and utilization of file hosting services. It offers features akin to popular platforms like Dropbox, Office 365, and Google Drive, especially when paired with integrated office suites such as Collabora Online or OnlyOffice.
+  tagline:
+    en_us: Provides users with platform tob store, share and collaborate files online.
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/nextcloud/icon.png
+  index: /
+  port_map: ${WEBUI_PORT:-8000}
+  scheme: http
+  tips:
+    custom: |
+      Visit link to finish setup and finetune.
+      https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/nextcloud/README.md
+  store_app_id: nextcloud-Panchocloud
+  title:
+    en_us: Nextcloud (Extended)
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/nextcloud/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/nextcloud/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/nextcloud/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/nextcloud/thumbnail.png
