@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+   virtualmin:
+    image: mypancho/virtualmin:v2.3
+    restart: always
+    ports:
+      - "8020:80"
+      - "8021:443"
+      - "8022:10000"
+      - "8025:25"
+      - "8024:53"
+      - "8025:53/udp"
+      - "8026:20"
+      - "8027:110"
+      - "8028:111"
+      - "8029:143"
+      - "8030:21"
+      - "8031:587"
+      - "8032:993"
+      - "8033:995"
+      - "8034:3306"
+      - "8035:22"
+      - "8036:20000"
+      - "8037:38532"
+      - "8038:40259"
+    stdin_open: true
+    privileged: true
+    tty: true
+    command: 
+      - "/bin/bash"
+      - "-c"
+      - |
+        service apache2 start && 
+        service webmin start && 
+        systemctl start fstrim.service && 
+        systemctl start fail2ban && 
+        systemctl start motd-news.timer && 
+        systemctl start milter-greylist && 
+        systemctl start usermin && 
+        systemctl start mariadb && 
+        service php8.1-fpm start && 
+        systemctl start basic.target && 
+        systemctl start sockets.target && 
+        systemctl start slices.target && 
+        systemctl start saslauthd && 
+        systemctl start paths.target && 
+        systemctl start motd-news.timer && 
+        service bind9 start && 
+        systemctl start postfix && 
+        service dovecot start && 
+        tail -f /dev/null
