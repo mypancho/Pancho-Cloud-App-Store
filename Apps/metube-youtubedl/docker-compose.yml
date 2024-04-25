@@ -29,12 +29,12 @@ x-casaos:
     en_us: Web GUI for youtube-dl enabling video downloads across platforms.
   developer: alexta69
   author: Mypancho.com
-  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/icon.png
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/icon.png
   screenshot_link:
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/screenshot-1.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/screenshot-2.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/screenshot-3.png
-  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/metube-youtubedl/thumbnail.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/metube-youtubedl/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/metube-youtubedl/thumbnail.png
   title:
     en_us: Metube
   category: Media

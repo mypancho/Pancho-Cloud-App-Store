@@ -1,0 +1,71 @@
+name: minisatip
+services:
+  app:
+    image: linuxserver/minisatip:version-80578a20
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      RUN_OPTS: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: RUN_OPTS
+          description:
+            en_us: Specify specific run params for minisatip
+      volumes: []
+      ports:
+        - container: '8875'
+          description:
+            en_us: ''
+        - container: '554'
+          description:
+            en_us: ''
+        - container: '1900'
+          description:
+            en_us: ''
+    ports:
+      - target: 8875
+        published: 8875
+        protocol: tcp
+      - target: 554
+        published: 554
+        protocol: tcp
+      - target: 1900
+        published: 1900
+        protocol: udp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/minisatip/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: A multi-threaded satip server version 1. 2 that runs under Linux and it was tested with DVB-S, DVB-S2, DVB-T, DVB-T2, DVB-C, DVB-C2, ATSC and ISDB-T cards.
+  tagline:
+    en_us: Linux-compatible multi-threaded SAT>IP server supporting various DVB standards.
+  developer: Catalinii
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/minisatip/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/minisatip/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/minisatip/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/minisatip/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/minisatip/thumbnail.png
+  title:
+    en_us: Minisatip
+  category: Network
+  project_url: https://github.com/catalinii/minisatip
+  port_map: '8875'

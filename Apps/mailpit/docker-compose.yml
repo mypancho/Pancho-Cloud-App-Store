@@ -1,0 +1,53 @@
+# Configuration for setup
+name: mailpit
+
+# Service definitions for the application
+services:
+  # Service name: app
+  app:
+    image: axllent/mailpit:v1.7 # Image for the app service
+    container_name: mailpit # Container name for the app service
+    restart: unless-stopped # Restart policy for the container
+    volumes: # Volumes to mount for the app service
+      - /DATA/AppData/$AppID/data:/data
+    environment: # Environment variables for the app service
+      - TZ=UTC
+    ports: # Ports to expose for the app service
+      - "8025:8025"
+      - "1025:1025"
+    x-casaos: # CasaOS specific configuration
+      envs:
+        - container: TZ
+          description:
+            en_us: Timezone
+      volumes:
+        - container: /data
+          description:
+            en_us: "Container Path: /data"
+      ports:
+        - container: "8025"
+          description:
+            en_us: "Container Port: 8025"
+# CasaOS specific configuration
+x-casaos:
+  architectures: # Supported CPU architectures
+    - amd64
+    - arm64
+  main: app # Main service of the application
+  description: # Description of the application in various languages
+    en_us: A developer-friendly email testing tool and API, Mailpit simulates an SMTP server and offers a user-friendly web interface to access all received emails. The tool provides an API for seamless integration testing and is known for its speed, efficiency, and small memory footprint. It caters to developers across various platforms, serving as a reliable resource for efficient email testing and integration processes.
+# Description in English
+  tagline: # Short description or tagline for the application in various languages
+    en_us: Mailpit is an email testing tool and API # Tagline in English
+  developer: "axllent" # Developer's name or identifier
+  author: Mypancho.com # Author of this configuration
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/mailpit/icon.png
+  screenshot_link:
+    - https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/mailpit/screenshot-1.PNG
+    - https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/mailpit/screenshot-2.PNG
+    - https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/mailpit/screenshot-3.PNG
+  thumbnail: https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/mailpit/thumbnail.PNG
+  title: # Title of the application in various languages
+    en_us: Mailpit # Title in English
+  category: Mail # Application category
+  port_map: "8025" # Port mapping information
