@@ -1,0 +1,60 @@
+name: joomla
+services:
+  app:
+    image: joomla:5.0-apache
+    environment:
+      JOOMLA_DB_HOST: joomladb
+      JOOMLA_DB_PASSWORD: casaos
+    depends_on:
+      - joomladb
+    x-casaos:
+      envs:
+        - container: JOOMLA_DB_HOST
+          description:
+            en_us: ''
+        - container: JOOMLA_DB_PASSWORD
+          description:
+            en_us: ''
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/www
+        target: /var/www/html
+  joomladb:
+    image: mysql:8.1.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: casaos
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/mysql
+        target: /var/lib/mysql
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: Joomla is an open source Content Management System (CMS), which is used to build websites and online applications.
+  tagline:
+    en_us: Open-source CMS for building websites and online applications.
+  developer: Andrew Eddie
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/joomla/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/joomla/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/joomla/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/joomla/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/joomla/thumbnail.png
+  tips:
+    before_install:
+      en_us: |
+        For database connection, select `MySQL` then on the `database host` field put `joomladb`, for `database user` put `root` and for `database password` put `casaos`
+  title:
+    en_us: Joomla
+  category: Utility
+  port_map: '80'

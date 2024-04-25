@@ -34,7 +34,7 @@ x-casaos:
   description:
     en_us: Jellyfin is a user-managed Free Software Media System offering media management and streaming capabilities. Acting as a substitute to the proprietary Emby and Plex, Jellyfin allows users to deliver media content from a dedicated server to various end-user devices through multiple applications. This provides greater control and flexibility in managing and accessing personal media collections.
   developer: Jellyfin
-  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/jellyfin/icon.png
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/jellyfin/icon.png
   index: /
   main: app
   port_map: ${WEBUI_PORT:-8096}
@@ -45,7 +45,7 @@ x-casaos:
   title:
     en_us: Jellyfin
   screenshot_link:
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/jellyfin/screenshot-1.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/jellyfin/screenshot-2.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/jellyfin/screenshot-3.png
-  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/jellyfin/thumbnail.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/jellyfin/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/jellyfin/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/jellyfin/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/jellyfin/thumbnail.png
