@@ -36,12 +36,12 @@ x-casaos:
   category: Developer
   description:
     en_us: Stable Diffusion WebUI is a browser interface for Stable Diffusion, an AI model that can generate images from text prompts or modify existing images with text prompts.
-  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/icon.png
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/icon.png
   screenshot_link:
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-1.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-2.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-3.png
-  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/thumbnail.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/thumbnail.png
   tagline:
     en_us: Explore Stable Diffusion's potential through intuitive web UI.
   scheme: http

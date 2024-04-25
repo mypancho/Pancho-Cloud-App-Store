@@ -1,0 +1,64 @@
+name: snapdrop
+services:
+  app:
+    image: linuxserver/snapdrop:version-eac78009
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+      ports:
+        - container: '80'
+          description:
+            en_us: 'Container Port: 80'
+        - container: '443'
+          description:
+            en_us: 'Container Port: 443'
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+      - target: 443
+        published: 443
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/snapdrop/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Snapdrop, a web-based platform akin to Airdrop, enables cross-device file transfers between Windows, Android, macOS, and other systems.
+  tagline:
+    en_us: A local file sharing in your browser. Inspired by Apple's Airdrop.
+  developer: RobinLinus
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/snapdrop/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/snapdrop/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/snapdrop/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/snapdrop/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/snapdrop/thumbnail.png
+  title:
+    en_us: Snapdrop
+  category: Utility
+  project_url: https://github.com/RobinLinus/snapdrop
+  port_map: '80'

@@ -48,12 +48,12 @@ x-casaos:
     en_us: Open-source tool for visual SQLite database creation and editing.
   developer: Sqlitebrowser team
   author: Mypancho.com
-  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/icon.png
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/icon.png
   screenshot_link:
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/screenshot-1.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/screenshot-2.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/screenshot-3.png
-  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/sqlitebrowser/thumbnail.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/sqlitebrowser/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/sqlitebrowser/thumbnail.png
   title:
     en_us: Sqlitebrowser
   category: Utility
