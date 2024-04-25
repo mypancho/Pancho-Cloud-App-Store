@@ -27,12 +27,12 @@ x-casaos:
   description:
     en_us: Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP. Conversely to phpMyAdmin, it consist of a single file ready to deploy to the target server. Adminer is available for MySQL, PostgreSQL, SQLite, MS SQL, Oracle, Firebird, SimpleDB, Elasticsearch and MongoDB.
   developer: Jakub Vrána
-  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Adminer/icon.png
+  icon: https://github.com/mypancho/Pancho-Cloud-App-Store/tree/main/Apps/Adminer/icon.png
   screenshot_link:
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Adminer/screenshot-1.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Adminer/screenshot-2.png
-    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Adminer/screenshot-3.png
-  thumbnail: https://github.com/uche40/Dev-Pancho-Cloud-App-Store/tree/main/Apps/Adminer/thumbnail.PNG
+    - https://github.com/mypancho/Pancho-Cloud-App-Store/tree/main/Apps/Adminer/screenshot-1.png
+    - https://github.com/mypancho/Pancho-Cloud-App-Store/tree/main/Apps/Adminer/screenshot-2.png
+    - https://github.com/mypancho/Pancho-Cloud-App-Store/tree/main/Apps/Adminer/screenshot-3.png
+  thumbnail: https://github.com/mypancho/Pancho-Cloud-App-Store/tree/main/Apps/Adminer/thumbnail.png
   tagline:
     en_us: Database management in a single PHP file
   title:
