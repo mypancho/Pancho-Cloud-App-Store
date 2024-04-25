@@ -1,0 +1,64 @@
+name: foldingathome
+services:
+  app:
+    image: linuxserver/foldingathome:7.6.21
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+      ports:
+        - container: '7396'
+          description:
+            en_us: GUI Port - Default 7396
+        - container: '36330'
+          description:
+            en_us: FAHControl Port - Default 36330
+    ports:
+      - target: 7396
+        published: 7396
+        protocol: tcp
+      - target: 36330
+        published: 36330
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/foldingathome/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: A distributed computing project for simulating protein dynamics, including the process of protein folding and the movements of proteins implicated in a variety of diseases. It brings together citizen scientists who volunteer to run simulations of protein dynamics on their personal computers. Insights from this data are helping scientists to better understand biology, and providing new opportunities for developing therapeutics.
+  tagline:
+    en_us: Distributed computing project simulating protein dynamics for disease research.
+  developer: foldingathometeam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/foldingathome/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/foldingathome/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/foldingathome/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/foldingathome/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/foldingathome/thumbnail.png
+  title:
+    en_us: Foldingathome
+  category: Utility
+  project_url: https://foldingathome.org/
+  port_map: '7396'
