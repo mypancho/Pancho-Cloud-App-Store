@@ -1,0 +1,121 @@
+name: wallabag
+services:
+  app:
+    image: wallabag/wallabag:2.6.6
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: casaos
+      POSTGRES_PASSWORD: casaos
+      SYMFONY__ENV__DATABASE_DRIVER: pdo_pgsql
+      SYMFONY__ENV__DATABASE_HOST: db
+      SYMFONY__ENV__DATABASE_USER: casaos
+      SYMFONY__ENV__DATABASE_PASSWORD: casaos
+      SYMFONY__ENV__DATABASE_NAME: casaos
+      SYMFONY__ENV__DATABASE_PORT: 5432
+      SYMFONY__ENV__SECRET: ''
+      SYMFONY__ENV__DOMAIN_NAME: ''
+      SYMFONY__ENV__MAILER_HOST: ''
+      SYMFONY__ENV__MAILER_USER: ''
+      SYMFONY__ENV__MAILER_PASSWORD: ''
+      SYMFONY__ENV__FROM_EMAIL: ''
+      SYMFONY__ENV__FOSUSER_REGISTRATION: ''
+      SYMFONY__ENV__FOSUSER_CONFIRMATION: ''
+    depends_on:
+      - db
+    x-casaos:
+      envs:
+        - container: SYMFONY__ENV__SECRET
+          description:
+            en_us: This should be set to a random string of characters.
+        - container: SYMFONY__ENV__DOMAIN_NAME
+          description:
+            en_us: ''
+        - container: SYMFONY__ENV__MAILER_HOST
+          description:
+            en_us: ''
+        - container: SYMFONY__ENV__MAILER_USER
+          description:
+            en_us: ''
+        - container: SYMFONY__ENV__MAILER_PASSWORD
+          description:
+            en_us: ''
+        - container: SYMFONY__ENV__FROM_EMAIL
+          description:
+            en_us: ''
+        - container: SYMFONY__ENV__FOSUSER_REGISTRATION
+          description:
+            en_us: ''
+        - container: SYMFONY__ENV__FOSUSER_CONFIRMATION
+          description:
+            en_us: ''
+    ports:
+      - target: 80
+        published: 8080
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Wallabag/data
+        target: /var/www/wallabag/data
+      - type: bind
+        source: /DATA/AppData/Wallabag/images
+        target: /var/www/wallabag/web/assets/images
+  db:
+    image: postgres:16.0
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      POSTGRES_USER: casaos
+      POSTGRES_PASSWORD: casaos
+      POSTGRES_DB: casaos
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: POSTGRES_DB
+          description:
+            en_us: Specify the name of a database to be created on image startup.
+        - container: POSTGRES_USER
+          description:
+            en_us: Postgres server username
+        - container: POSTGRES_PASSWORD
+          description:
+            en_us: Postgres server password
+      volumes:
+        - container: /var/lib/postgresql/data
+          description:
+            en_us: Directory where Postgres database data is stored
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/postgres/data
+        target: /var/lib/postgresql/data
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: 'wallabag is a self hostable application for saving web pages: Save and classify articles. Read them later. Freely.'
+  tagline:
+    en_us: Self-hosted app for saving and organizing web pages.
+  developer: wallabag team
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/wallabag/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/wallabag/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/wallabag/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/wallabag/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/wallabag/thumbnail.png
+  title:
+    en_us: Wallabag
+  category: Network
+  port_map: '8080'
