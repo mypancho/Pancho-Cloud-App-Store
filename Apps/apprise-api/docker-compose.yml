@@ -1,0 +1,58 @@
+name: apprise-api
+services:
+  app:
+    image: linuxserver/apprise-api:0.9.4
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+      volumes:
+        - container: /config
+          description:
+            en_us: Where config is stored.
+      ports:
+        - container: '8000'
+          description:
+            en_us: Port for apprise's interface and API.
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/apprise-api/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Leverage Apprise across your network using its intuitive API, delivering notifications to over 65 services. This lightweight Apprise gateway serves as a readily deployable micro-service. Seamlessly integrate the Apprise API into existing or new systems seeking streamlined notification solutions.
+  tagline:
+    en_us: Apprise simplifies notifications for 65+ services.
+  developer: Appraise-api
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/apprise-api/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/apprise-api/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/apprise-api/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/apprise-api/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/apprise-api/thumbnail.png
+  title:
+    en_us: Apprise api
+  category: Utility
+  project_url: https://github.com/caronc/apprise-api
+  port_map: '8000'

@@ -1,0 +1,77 @@
+name: aria2-pro
+services:
+  aria2-pro:
+    environment:
+      LISTEN_PORT: "6888"
+      PGID: $PGID
+      PUID: $PUID
+      RPC_PORT: "6800"
+      RPC_SECRET: "TOKEN"
+    image: p3terx/aria2-pro:latest
+    container_name: aria2-pro
+    deploy:
+      resources:
+        reservations:
+          memory: "64M"
+    network_mode: bridge
+    ports:
+      - target: 6800
+        published: "6800"
+        protocol: tcp
+      - target: 6888
+        published: "6888"
+        protocol: tcp
+      - target: 6888
+        published: "6888"
+        protocol: udp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/Downloads
+        target: /downloads
+      - type: bind
+        source: /DATA/AppData/aria2-pro/config
+        target: /config
+    x-casaos:
+        envs:
+            - container: RPC_SECRET
+              description:
+                en_us: RPC secret key setting, which is the password required to be filled in when connecting to the WebUI, and only recommended to use letters and numbers.
+            - container: RPC_PORT
+              description:
+                en_us: RPC port setting
+            - container: LISTEN_PORT
+              description:
+                en_us: BT listening port (TCP), DHT listening port (UDP) setting
+        ports:
+            - container: "6800"
+              description:
+                en_us: RPC communication port mapping.
+            - container: "6888"
+              description:
+                en_us: BT listening port (TCP) mapping, which is the port defined in the listen-port option in Aria2 configuration.
+            - container: "6888"
+              description:
+                en_us: DHT listening port (UDP) mapping, which is the port defined in the dht-listen-port option in Aria2 configuration.
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Downloader
+  description:
+    en_us: Aria2 is currently the most powerful and versatile download tool. It supports various downloading protocols such as BT, magnet, HTTP, and FTP, and is commonly used as a server for offline downloading. https://p3terx.com/archives/docker-aria2-pro.html
+  developer: P3TERX
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/aria2-pro/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/aria2-pro/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/aria2-pro/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/aria2-pro/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/aria2-pro/thumbnail.png
+  main: aria2-pro
+  tagline:
+    en_us: Versatile download tool supporting multiple protocols for offline downloading.
+  tips:
+  title:
+    en_us: Aria2 Pro

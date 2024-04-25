@@ -1,0 +1,41 @@
+name: airvideohd
+services:
+  app:
+    image: dmaxwell/airvideohd:latest
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - type: bind
+        source: /DATA/AppData/airvideohd/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/airvideohd/conversionPath
+        target: /conversionPath
+      - type: bind
+        source: /DATA/Media/Movies
+        target: /videos
+x-casaos:
+  architectures:
+    - amd64
+  main: app
+  description:
+    en_us: Watch videos streamed instantly from your computer on your iPhone, iPad, iPod touch or Apple TV.
+  tagline:
+    en_us: Instantly stream computer videos to iPhone, iPad, Apple TV.
+  developer: InMethod
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/airvideohd/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/airvideohd/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/airvideohd/screenshot-2.png
+    - https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/Apps/airvideohd/screenshot-3.png
+  thumbnail: https://cdn.jsdelivr.net/gh/uche40/Dev-Pancho-Cloud-App-Store@main/archivebox/thumbnail.png
+  category: Media
+  tips:
+    before_install:
+      en_us: |
+        ### Note
+
+        To find your `Server PIN`, look in the `network.log` file in `/DATA/AppData/airvideohd/config/logs` after the server has started.
+  title:
+    en_us: Air Video HD
