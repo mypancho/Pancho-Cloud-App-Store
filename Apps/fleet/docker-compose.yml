@@ -1,0 +1,69 @@
+name: fleet
+services:
+  app:
+    image: linuxserver/fleet:2.3.3
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      fleet_admin_authentication_type: ''
+      fleet_database_url: ''
+      fleet_database_username: ''
+      fleet_database_password: ''
+      fleet_admin_secret: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: fleet_admin_authentication_type
+          description:
+            en_us: A switch to define how Fleet manages user logins. If set to DATABASE, see the related optional params. Can be set to either DATABASE or PROPERTIES.
+        - container: fleet_database_url
+          description:
+            en_us: The full JDBC connection string to the Fleet database
+        - container: fleet_database_username
+          description:
+            en_us: The username with the relevant GRANT permissions for the database
+        - container: fleet_database_password
+          description:
+            en_us: The database user's password.
+        - container: fleet_admin_secret
+          description:
+            en_us: A string used as part of the password key derivation process.
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/fleet/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Fleet provides an online web interface which displays a set of maintained images from one or more owned repositories.
+  tagline:
+    en_us: Online interface showcasing maintained images from owned repositories.
+  developer: fleetteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/fleet/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/fleet/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/fleet/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/fleet/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/fleet/thumbnail.jpg
+  title:
+    en_us: Fleet
+  category: Utility
+  port_map: '8080'

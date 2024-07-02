@@ -1,0 +1,39 @@
+name: excalidraw
+services:
+  excalidraw:
+    environment:
+      TZ: $TZ
+    image: excalidraw/excalidraw:latest
+    container_name: excalidraw
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - target: 80
+        published: "5000"
+        protocol: tcp
+    restart: unless-stopped
+x-casaos:
+  architectures:
+    - amd64
+  main: excalidraw
+  author: Mypancho.com
+  category: Utilities
+  description:
+    en_us: Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams, illustrate ideas, and create beautiful illustrations remotely.
+  developer: Excalidraw
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/excalidraw/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/excalidraw/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/excalidraw/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/excalidraw/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/excalidraw/thumbnail.jpg
+  tagline:
+    en_us: Collaborative whiteboard tool for remote diagram sketching.
+  tips: {}
+  title:
+    en_us: Excalidraw
+  index: /
+  port_map: "5000"

@@ -1,0 +1,67 @@
+name: flexget
+services:
+  app:
+    image: linuxserver/flexget:3.9.10
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      FG_LOG_LEVEL: ''
+      FG_LOG_FILE: ''
+      FG_CONFIG_FILE: ''
+      FG_WEBUI_PASSWORD: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: FG_LOG_LEVEL
+          description:
+            en_us: Set the FlexGet logging level.
+        - container: FG_LOG_FILE
+          description:
+            en_us: Set the FlexGet log file location.
+        - container: FG_CONFIG_FILE
+          description:
+            en_us: Set the FlexGet config file location.
+        - container: FG_WEBUI_PASSWORD
+          description:
+            en_us: Set the FlexGet webui password. Pay attention to Bash/YAML reserved characters.
+    ports:
+      - target: 5050
+        published: 5050
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/flexget/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/flexget/data
+        target: /data
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Flexget is a multipurpose automation tool for all of your media.
+  tagline:
+    en_us: A multipurpose automation tool for all of your media.
+  developer: flexgetteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/flexget/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/flexget/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/flexget/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/flexget/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/flexget/thumbnail.jpg
+  title:
+    en_us: Flexget
+  category: Automation
