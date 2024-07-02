@@ -1,0 +1,777 @@
+name: mailu
+services:
+  admin:
+    depends_on:
+      redis:
+        condition: service_started
+      resolver:
+        condition: service_started
+    dns:
+      - 192.168.203.254
+    environment:
+      - ADMIN=true
+      - ANTIVIRUS=none
+      - API=false
+      - API_TOKEN=
+      - AUTH_RATELIMIT_IP=5/hour
+      - AUTH_RATELIMIT_USER=50/day
+      - COMPOSE_PROJECT_NAME=mailu
+      - COMPRESSION=
+      - COMPRESSION_LEVEL=
+      - CREDENTIAL_ROUNDS=12
+      - DEFAULT_SPAM_THRESHOLD=80
+      - DISABLE_STATISTICS=False
+      - DMARC_RUA=admin
+      - DMARC_RUF=admin
+      - DOMAIN=stackjac.com
+      - FETCHMAIL_DELAY=600
+      - FETCHMAIL_ENABLED=False
+      - HOSTNAMES=mail.stackjac.com
+      - INITIAL_ADMIN_ACCOUNT=mypancho
+      - INITIAL_ADMIN_DOMAIN=stackjac.com
+      - INITIAL_ADMIN_MODE=ifmissing
+      - INITIAL_ADMIN_PW=password
+      - LOG_LEVEL=WARNING
+      - MESSAGE_RATELIMIT=200/day
+      - MESSAGE_SIZE_LIMIT=50000000
+      - POSTMASTER=admin
+      - REAL_IP_FROM=
+      - REAL_IP_HEADER=
+      - RECIPIENT_DELIMITER=+
+      - REJECT_UNLISTED_RECIPIENT=
+      - RELAYHOST=
+      - RELAYNETS=
+      - SCAN_MACROS=true
+      - SECRET_KEY=QHAJY4EXGCORWVXM
+      - SITENAME=Mailu
+      - SUBNET=192.168.203.0/24
+      - TLS_FLAVOR=letsencrypt
+      - TZ=Etc/UTC
+      - WEB_ADMIN=/admin
+      - WEB_API=
+      - WEB_WEBMAIL=/webmail
+      - WEBDAV=radicale
+      - WEBMAIL=roundcube
+      - WEBROOT_REDIRECT=/webmail
+      - WEBSITE=https://mypancho.org
+      - WELCOME=false
+      - WELCOME_BODY=Welcome to your new email account, if you can read this,
+        then it is configured properly!
+      - WELCOME_SUBJECT=Welcome to your new email account
+    env_file:
+      - /mailu/mailu.env
+    image: ghcr.io/mailu/admin:2.0
+    logging:
+      driver: journald
+      options:
+        tag: mailu-admin
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/data
+        target: /data
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mailu/dkim
+        target: /dkim
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  antispam:
+    depends_on:
+      front:
+        condition: service_started
+      oletools:
+        condition: service_started
+      redis:
+        condition: service_started
+      resolver:
+        condition: service_started
+    dns:
+      - 192.168.203.254
+    environment:
+      - ADMIN=true
+      - ANTIVIRUS=none
+      - API=false
+      - API_TOKEN=
+      - AUTH_RATELIMIT_IP=5/hour
+      - AUTH_RATELIMIT_USER=50/day
+      - COMPOSE_PROJECT_NAME=mailu
+      - COMPRESSION=
+      - COMPRESSION_LEVEL=
+      - CREDENTIAL_ROUNDS=12
+      - DEFAULT_SPAM_THRESHOLD=80
+      - DISABLE_STATISTICS=False
+      - DMARC_RUA=admin
+      - DMARC_RUF=admin
+      - DOMAIN=stackjac.com
+      - FETCHMAIL_DELAY=600
+      - FETCHMAIL_ENABLED=False
+      - HOSTNAMES=mail.stackjac.com
+      - INITIAL_ADMIN_ACCOUNT=mypancho
+      - INITIAL_ADMIN_DOMAIN=stackjac.com
+      - INITIAL_ADMIN_MODE=ifmissing
+      - INITIAL_ADMIN_PW=password
+      - LOG_LEVEL=WARNING
+      - MESSAGE_RATELIMIT=200/day
+      - MESSAGE_SIZE_LIMIT=50000000
+      - POSTMASTER=admin
+      - REAL_IP_FROM=
+      - REAL_IP_HEADER=
+      - RECIPIENT_DELIMITER=+
+      - REJECT_UNLISTED_RECIPIENT=
+      - RELAYHOST=
+      - RELAYNETS=
+      - SCAN_MACROS=true
+      - SECRET_KEY=QHAJY4EXGCORWVXM
+      - SITENAME=Mailu
+      - SUBNET=192.168.203.0/24
+      - TLS_FLAVOR=letsencrypt
+      - TZ=Etc/UTC
+      - WEB_ADMIN=/admin
+      - WEB_API=
+      - WEB_WEBMAIL=/webmail
+      - WEBDAV=radicale
+      - WEBMAIL=roundcube
+      - WEBROOT_REDIRECT=/webmail
+      - WEBSITE=https://mypancho.org
+      - WELCOME=false
+      - WELCOME_BODY=Welcome to your new email account, if you can read this,
+        then it is configured properly!
+      - WELCOME_SUBJECT=Welcome to your new email account
+    env_file:
+      - /mailu/mailu.env
+    hostname: antispam
+    image: ghcr.io/mailu/rspamd:2.0
+    logging:
+      driver: journald
+      options:
+        tag: mailu-antispam
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/filter
+        target: /var/lib/rspamd
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mailu/overrides/rspamd
+        target: /overrides
+        read_only: true
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+      - noinet
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  front:
+    depends_on:
+      resolver:
+        condition: service_started
+    dns:
+      - 192.168.203.254
+    environment:
+      - ADMIN=true
+      - ANTIVIRUS=none
+      - API=false
+      - API_TOKEN=
+      - AUTH_RATELIMIT_IP=5/hour
+      - AUTH_RATELIMIT_USER=50/day
+      - COMPOSE_PROJECT_NAME=mailu
+      - COMPRESSION=
+      - COMPRESSION_LEVEL=
+      - CREDENTIAL_ROUNDS=12
+      - DEFAULT_SPAM_THRESHOLD=80
+      - DISABLE_STATISTICS=False
+      - DMARC_RUA=admin
+      - DMARC_RUF=admin
+      - DOMAIN=stackjac.com
+      - FETCHMAIL_DELAY=600
+      - FETCHMAIL_ENABLED=False
+      - HOSTNAMES=mail.stackjac.com
+      - INITIAL_ADMIN_ACCOUNT=mypancho
+      - INITIAL_ADMIN_DOMAIN=stackjac.com
+      - INITIAL_ADMIN_MODE=ifmissing
+      - INITIAL_ADMIN_PW=password
+      - LOG_LEVEL=WARNING
+      - MESSAGE_RATELIMIT=200/day
+      - MESSAGE_SIZE_LIMIT=50000000
+      - POSTMASTER=admin
+      - REAL_IP_FROM=
+      - REAL_IP_HEADER=
+      - RECIPIENT_DELIMITER=+
+      - REJECT_UNLISTED_RECIPIENT=
+      - RELAYHOST=
+      - RELAYNETS=
+      - SCAN_MACROS=true
+      - SECRET_KEY=QHAJY4EXGCORWVXM
+      - SITENAME=Mailu
+      - SUBNET=192.168.203.0/24
+      - TLS_FLAVOR=letsencrypt
+      - TZ=Etc/UTC
+      - WEB_ADMIN=/admin
+      - WEB_API=
+      - WEB_WEBMAIL=/webmail
+      - WEBDAV=radicale
+      - WEBMAIL=roundcube
+      - WEBROOT_REDIRECT=/webmail
+      - WEBSITE=https://mypancho.org
+      - WELCOME=false
+      - WELCOME_BODY=Welcome to your new email account, if you can read this,
+        then it is configured properly!
+      - WELCOME_SUBJECT=Welcome to your new email account
+    env_file:
+      - /mailu/mailu.env
+    image: ghcr.io/mailu/nginx:2.0
+    logging:
+      driver: journald
+      options:
+        tag: mailu-front
+    ports:
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 80
+        published: "80"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 80
+        published: "8008"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 443
+        published: "443"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 25
+        published: "25"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 465
+        published: "465"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 587
+        published: "587"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 110
+        published: "110"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 995
+        published: "995"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 143
+        published: "143"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 65.108.210.234
+        target: 993
+        published: "993"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/certs
+        target: /certs
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mailu/overrides/nginx
+        target: /overrides
+        read_only: true
+        bind:
+          create_host_path: true
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+      - radicale
+      - webmail
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  imap:
+    depends_on:
+      front:
+        condition: service_started
+      resolver:
+        condition: service_started
+    dns:
+      - 192.168.203.254
+    environment:
+      - ADMIN=true
+      - ANTIVIRUS=none
+      - API=false
+      - API_TOKEN=
+      - AUTH_RATELIMIT_IP=5/hour
+      - AUTH_RATELIMIT_USER=50/day
+      - COMPOSE_PROJECT_NAME=mailu
+      - COMPRESSION=
+      - COMPRESSION_LEVEL=
+      - CREDENTIAL_ROUNDS=12
+      - DEFAULT_SPAM_THRESHOLD=80
+      - DISABLE_STATISTICS=False
+      - DMARC_RUA=admin
+      - DMARC_RUF=admin
+      - DOMAIN=stackjac.com
+      - FETCHMAIL_DELAY=600
+      - FETCHMAIL_ENABLED=False
+      - HOSTNAMES=mail.stackjac.com
+      - INITIAL_ADMIN_ACCOUNT=mypancho
+      - INITIAL_ADMIN_DOMAIN=stackjac.com
+      - INITIAL_ADMIN_MODE=ifmissing
+      - INITIAL_ADMIN_PW=password
+      - LOG_LEVEL=WARNING
+      - MESSAGE_RATELIMIT=200/day
+      - MESSAGE_SIZE_LIMIT=50000000
+      - POSTMASTER=admin
+      - REAL_IP_FROM=
+      - REAL_IP_HEADER=
+      - RECIPIENT_DELIMITER=+
+      - REJECT_UNLISTED_RECIPIENT=
+      - RELAYHOST=
+      - RELAYNETS=
+      - SCAN_MACROS=true
+      - SECRET_KEY=QHAJY4EXGCORWVXM
+      - SITENAME=Mailu
+      - SUBNET=192.168.203.0/24
+      - TLS_FLAVOR=letsencrypt
+      - TZ=Etc/UTC
+      - WEB_ADMIN=/admin
+      - WEB_API=
+      - WEB_WEBMAIL=/webmail
+      - WEBDAV=radicale
+      - WEBMAIL=roundcube
+      - WEBROOT_REDIRECT=/webmail
+      - WEBSITE=https://mypancho.org
+      - WELCOME=false
+      - WELCOME_BODY=Welcome to your new email account, if you can read this,
+        then it is configured properly!
+      - WELCOME_SUBJECT=Welcome to your new email account
+    env_file:
+      - /mailu/mailu.env
+    image: ghcr.io/mailu/dovecot:2.0
+    logging:
+      driver: journald
+      options:
+        tag: mailu-imap
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/mail
+        target: /mail
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mailu/overrides/dovecot
+        target: /overrides
+        read_only: true
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  oletools:
+    depends_on:
+      resolver:
+        condition: service_started
+    dns:
+      - 192.168.203.254
+    hostname: oletools
+    image: ghcr.io/mailu/oletools:2.0
+    restart: always
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    command: []
+    environment: []
+    networks:
+      - noinet
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  redis:
+    depends_on:
+      resolver:
+        condition: service_started
+    dns:
+      - 192.168.203.254
+    image: redis:alpine
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/redis
+        target: /data
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    environment: []
+    networks:
+      - default
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  resolver:
+    environment:
+      - ADMIN=true
+      - ANTIVIRUS=none
+      - API=false
+      - API_TOKEN=
+      - AUTH_RATELIMIT_IP=5/hour
+      - AUTH_RATELIMIT_USER=50/day
+      - COMPOSE_PROJECT_NAME=mailu
+      - COMPRESSION=
+      - COMPRESSION_LEVEL=
+      - CREDENTIAL_ROUNDS=12
+      - DEFAULT_SPAM_THRESHOLD=80
+      - DISABLE_STATISTICS=False
+      - DMARC_RUA=admin
+      - DMARC_RUF=admin
+      - DOMAIN=stackjac.com
+      - FETCHMAIL_DELAY=600
+      - FETCHMAIL_ENABLED=False
+      - HOSTNAMES=mail.stackjac.com
+      - INITIAL_ADMIN_ACCOUNT=mypancho
+      - INITIAL_ADMIN_DOMAIN=stackjac.com
+      - INITIAL_ADMIN_MODE=ifmissing
+      - INITIAL_ADMIN_PW=password
+      - LOG_LEVEL=WARNING
+      - MESSAGE_RATELIMIT=200/day
+      - MESSAGE_SIZE_LIMIT=50000000
+      - POSTMASTER=admin
+      - REAL_IP_FROM=
+      - REAL_IP_HEADER=
+      - RECIPIENT_DELIMITER=+
+      - REJECT_UNLISTED_RECIPIENT=
+      - RELAYHOST=
+      - RELAYNETS=
+      - SCAN_MACROS=true
+      - SECRET_KEY=QHAJY4EXGCORWVXM
+      - SITENAME=Mailu
+      - SUBNET=192.168.203.0/24
+      - TLS_FLAVOR=letsencrypt
+      - TZ=Etc/UTC
+      - WEB_ADMIN=/admin
+      - WEB_API=
+      - WEB_WEBMAIL=/webmail
+      - WEBDAV=radicale
+      - WEBMAIL=roundcube
+      - WEBROOT_REDIRECT=/webmail
+      - WEBSITE=https://mypancho.org
+      - WELCOME=false
+      - WELCOME_BODY=Welcome to your new email account, if you can read this,
+        then it is configured properly!
+      - WELCOME_SUBJECT=Welcome to your new email account
+    env_file:
+      - /mailu/mailu.env
+    image: ghcr.io/mailu/unbound:2.0
+    restart: always
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  smtp:
+    depends_on:
+      front:
+        condition: service_started
+      resolver:
+        condition: service_started
+    dns:
+      - 192.168.203.254
+    environment:
+      - ADMIN=true
+      - ANTIVIRUS=none
+      - API=false
+      - API_TOKEN=
+      - AUTH_RATELIMIT_IP=5/hour
+      - AUTH_RATELIMIT_USER=50/day
+      - COMPOSE_PROJECT_NAME=mailu
+      - COMPRESSION=
+      - COMPRESSION_LEVEL=
+      - CREDENTIAL_ROUNDS=12
+      - DEFAULT_SPAM_THRESHOLD=80
+      - DISABLE_STATISTICS=False
+      - DMARC_RUA=admin
+      - DMARC_RUF=admin
+      - DOMAIN=stackjac.com
+      - FETCHMAIL_DELAY=600
+      - FETCHMAIL_ENABLED=False
+      - HOSTNAMES=mail.stackjac.com
+      - INITIAL_ADMIN_ACCOUNT=mypancho
+      - INITIAL_ADMIN_DOMAIN=stackjac.com
+      - INITIAL_ADMIN_MODE=ifmissing
+      - INITIAL_ADMIN_PW=password
+      - LOG_LEVEL=WARNING
+      - MESSAGE_RATELIMIT=200/day
+      - MESSAGE_SIZE_LIMIT=50000000
+      - POSTMASTER=admin
+      - REAL_IP_FROM=
+      - REAL_IP_HEADER=
+      - RECIPIENT_DELIMITER=+
+      - REJECT_UNLISTED_RECIPIENT=
+      - RELAYHOST=
+      - RELAYNETS=
+      - SCAN_MACROS=true
+      - SECRET_KEY=QHAJY4EXGCORWVXM
+      - SITENAME=Mailu
+      - SUBNET=192.168.203.0/24
+      - TLS_FLAVOR=letsencrypt
+      - TZ=Etc/UTC
+      - WEB_ADMIN=/admin
+      - WEB_API=
+      - WEB_WEBMAIL=/webmail
+      - WEBDAV=radicale
+      - WEBMAIL=roundcube
+      - WEBROOT_REDIRECT=/webmail
+      - WEBSITE=https://mypancho.org
+      - WELCOME=false
+      - WELCOME_BODY=Welcome to your new email account, if you can read this,
+        then it is configured properly!
+      - WELCOME_SUBJECT=Welcome to your new email account
+    env_file:
+      - /mailu/mailu.env
+    image: ghcr.io/mailu/postfix:2.0
+    logging:
+      driver: journald
+      options:
+        tag: mailu-smtp
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/mailqueue
+        target: /queue
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mailu/overrides/postfix
+        target: /overrides
+        read_only: true
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  webdav:
+    image: ghcr.io/mailu/radicale:2.0
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/dav
+        target: /data
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    environment: []
+    networks:
+      - radicale
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+  webmail:
+    depends_on:
+      front:
+        condition: service_started
+    environment:
+      - ADMIN=true
+      - ANTIVIRUS=none
+      - API=false
+      - API_TOKEN=
+      - AUTH_RATELIMIT_IP=5/hour
+      - AUTH_RATELIMIT_USER=50/day
+      - COMPOSE_PROJECT_NAME=mailu
+      - COMPRESSION=
+      - COMPRESSION_LEVEL=
+      - CREDENTIAL_ROUNDS=12
+      - DEFAULT_SPAM_THRESHOLD=80
+      - DISABLE_STATISTICS=False
+      - DMARC_RUA=admin
+      - DMARC_RUF=admin
+      - DOMAIN=stackjac.com
+      - FETCHMAIL_DELAY=600
+      - FETCHMAIL_ENABLED=False
+      - HOSTNAMES=mail.stackjac.com
+      - INITIAL_ADMIN_ACCOUNT=mypancho
+      - INITIAL_ADMIN_DOMAIN=stackjac.com
+      - INITIAL_ADMIN_MODE=ifmissing
+      - INITIAL_ADMIN_PW=password
+      - LOG_LEVEL=WARNING
+      - MESSAGE_RATELIMIT=200/day
+      - MESSAGE_SIZE_LIMIT=50000000
+      - POSTMASTER=admin
+      - REAL_IP_FROM=
+      - REAL_IP_HEADER=
+      - RECIPIENT_DELIMITER=+
+      - REJECT_UNLISTED_RECIPIENT=
+      - RELAYHOST=
+      - RELAYNETS=
+      - SCAN_MACROS=true
+      - SECRET_KEY=QHAJY4EXGCORWVXM
+      - SITENAME=Mailu
+      - SUBNET=192.168.203.0/24
+      - TLS_FLAVOR=letsencrypt
+      - TZ=Etc/UTC
+      - WEB_ADMIN=/admin
+      - WEB_API=
+      - WEB_WEBMAIL=/webmail
+      - WEBDAV=radicale
+      - WEBMAIL=roundcube
+      - WEBROOT_REDIRECT=/webmail
+      - WEBSITE=https://mypancho.org
+      - WELCOME=false
+      - WELCOME_BODY=Welcome to your new email account, if you can read this,
+        then it is configured properly!
+      - WELCOME_SUBJECT=Welcome to your new email account
+    env_file:
+      - /mailu/mailu.env
+    image: ghcr.io/mailu/webmail:2.0
+    restart: always
+    volumes:
+      - type: bind
+        source: /mailu/webmail
+        target: /data
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mailu/overrides/roundcube
+        target: /overrides
+        read_only: true
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - webmail
+    privileged: false
+    container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1916M
+networks:
+  default:
+    name: mailu_default
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.203.0/24
+  noinet:
+    name: mailu_noinet
+    driver: bridge
+    internal: true
+  radicale:
+    name: mailu_radicale
+    driver: bridge
+  webmail:
+    name: mailu_webmail
+    driver: bridge
+x-casaos:
+  hostname: ""
+  scheme: http
+  index: /
+  port_map: ""
+  author: Mypancho.com  
+  category: Self
+  description:
+    en_us: Mailu, available as Docker images, offers a user-friendly, open-source mail server solution. It's cost-free and open to input and collaboration. The project's goal is to deliver a hassle-free, comprehensive mail server that's simple to install and manage, without including proprietary software or extraneous features typically associated with groupware solutions.
+  developer: Mailu Team
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mailu/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mailu/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mailu/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mailu/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/mailu/thumbnail.jpg
+  tagline:
+    en_us: Mailu is a simple yet full-featured mail server.   
+  title:
+    custom: ""

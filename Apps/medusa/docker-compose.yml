@@ -1,0 +1,56 @@
+name: medusa
+services:
+  app:
+    image: linuxserver/medusa:1.0.17
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+    ports:
+      - target: 8081
+        published: 8081
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/medusa/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/medusa/downloads
+        target: /downloads
+      - type: bind
+        source: /DATA/AppData/medusa/tv
+        target: /tv
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: An automatic Video Library Manager for TV Shows. It watches for new episodes of your favorite shows, and when they are posted it does its magic.
+  tagline:
+    en_us: Automated TV show library manager tracking new episodes effortlessly.
+  developer: Pymedusa
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/medusa/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/medusa/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/medusa/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/medusa/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/medusa/thumbnail.jpg
+  title:
+    en_us: Medusa
+  category: Media
+  project_url: https://github.com/pymedusa/Medusa
+  port_map: '8081'
