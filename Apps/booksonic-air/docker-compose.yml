@@ -1,0 +1,71 @@
+name: booksonic-air
+services:
+  app:
+    image: linuxserver/booksonic-air:2201.1.0
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      CONTEXT_PATH: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: CONTEXT_PATH
+          description:
+            en_us: Base url for use with reverse proxies etc.
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+      ports:
+        - container: '4040'
+          description:
+            en_us: Webui Port
+    ports:
+      - target: 4040
+        published: 4040
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/booksonic-air/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/booksonic-air/audiobooks
+        target: /audiobooks
+      - type: bind
+        source: /DATA/AppData/booksonic-air/podcasts
+        target: /podcasts
+      - type: bind
+        source: /DATA/AppData/booksonic-air/othermedia
+        target: /othermedia
+x-casaos:
+  architectures:
+    - arm64
+    - amd64
+  main: app
+  description:
+    en_us: 'A platform for accessing the audiobooks you own wherever you are. At the moment the platform consists of: * Booksonic Air - A server for streaming your audiobooks, successor to the original Booksonic server and based on Airsonic. * Booksonic App - An DSub based Android app for connection to Booksonic-Air servers.'
+  tagline:
+    en_us: Access your audiobooks anywhere with this platform's components
+  developer: Booksonic-air team
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/booksonic-air/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/booksonic-air/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/booksonic-air/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/booksonic-air/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/booksonic-air/thumbnail.jpg
+  title:
+    en_us: Booksonic air
+  category: Media
+  project_url: https://booksonic.org/
+  port_map: '4040'
