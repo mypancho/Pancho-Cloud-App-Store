@@ -1,0 +1,51 @@
+name: lollypop
+services:
+  app:
+    image: linuxserver/lollypop:1.4.35
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 3001
+        published: 3001
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/lollypop/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Lollypop is a lightweight modern music player designed to work excellently on the GNOME desktop environment.
+  tagline:
+    en_us: Lollypop - optimized music player with modern lightweight design.
+  developer: Lollypopteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/lollypop/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/lollypop/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/lollypop/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/lollypop/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/lollypop/thumbnail.jpg
+  title:
+    en_us: Lollypop
+  category: Media

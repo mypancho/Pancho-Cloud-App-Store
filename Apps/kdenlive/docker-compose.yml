@@ -1,0 +1,55 @@
+name: kdenlive
+services:
+  app:
+    image: linuxserver/kdenlive:421.12.3
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      SUBFOLDER: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: SUBFOLDER
+          description:
+            en_us: Specify a subfolder to use with reverse proxies, IE /subfolder/
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 3001
+        published: 3001
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/kdenlive/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Kdenlive is a powerful free and open source cross-platform video editing program made by the KDE community. Feature rich and production ready.
+  tagline:
+    en_us: KDE community's feature-rich cross-platform video editing program.
+  developer: kdenliveteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/kdenlive/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/kdenlive/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/kdenlive/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/kdenlive/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/kdenlive/thumbnail.jpg
+  title:
+    en_us: Kdenlive
+  category: Utility
