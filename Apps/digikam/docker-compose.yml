@@ -1,0 +1,65 @@
+name: digikam
+services:
+  app:
+    image: linuxserver/digikam:version-2023-09-15
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      SUBFOLDER: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: SUBFOLDER
+          description:
+            en_us: Specify a subfolder to use with reverse proxies, IE /subfolder/
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+      ports:
+        - container: '3000'
+          description:
+            en_us: 'Container Port: 3000'
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+      - target: 3001
+        published: 3001
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/digikam/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: digiKam facilitates photo organization, previews, downloads, and deletions from digital cameras, offering on-the-fly auto-transformations during downloads.
+  tagline:
+    en_us: 'digiKam: Professional Photo Management with the Power of Open Source'
+  developer: digiKamteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/digikam/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/digikam/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/digikam/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/digikam/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/digikam/thumbnail.jpg
+  title:
+    en_us: Digikam
+  category: Utility
+  project_url: https://www.digikam.org/
+  port_map: '3000'

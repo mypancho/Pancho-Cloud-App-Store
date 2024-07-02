@@ -1,0 +1,37 @@
+name: chatpadai
+services:
+  app:
+    container_name: chatpadai
+    image: ghcr.io/deiucanta/chatpad:latest
+    ports:
+      - target: 80
+        published: ${WEBUI_PORT:-80}
+        protocol: tcp
+    restart: unless-stopped
+    privileged: false
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Artificial Intelligence
+  description:
+    en_us: ChatGPT is an easy-to-use system that enables users to interact with ChatGPT through free and open-source software.
+  developer: deiucanta
+  index: /
+  main: app
+  port_map: ${WEBUI_PORT:-80}
+  scheme: http
+  tagline:
+    en_us: User-friendly system for interacting with ChatGPT, open-source.
+  store_app_id: chatpadai-Panchocloud
+  title:
+    en_us: ChatPadAI    
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/chatpadai/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/chatpadai/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/chatpadai/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/chatpadai/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/chatpadai/thumbnail.jpg
