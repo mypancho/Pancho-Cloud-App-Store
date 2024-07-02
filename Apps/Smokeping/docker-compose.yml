@@ -1,0 +1,71 @@
+name: smokeping
+services:
+  smokeping:
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: linuxserver/smokeping:2.8.2
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - target: 80
+        published: "10280"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/smokeping/config
+        target: /config
+      - type: bind
+        source: /DATA/AppData/Panchocloud/smokeping/data
+        target: /data
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: ""
+        - container: PGID
+          description:
+            en_us: ""
+        - container: TZ
+          description:
+            en_us: ""
+      ports:
+        - container: "80"
+          description:
+            en_us: ""
+      volumes:
+        - container: /config
+          description:
+            en_us: ""
+        - container: /data
+          description:
+            en_us: ""
+    container_name: smokeping
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: smokeping
+  author: Mypancho.com
+  category: Network
+  description:
+    en_us: keeps track of your network latency.
+  developer: Lazylibrarian Team
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Smokeping/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Smokeping/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Smokeping/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Smokeping/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Smokeping/thumbnail.jpg
+  tagline:
+    en_us: Free open source network performance monitoring tool
+  tips: {}
+  title:
+    en_us: Smokeping
+  port_map: "10280"

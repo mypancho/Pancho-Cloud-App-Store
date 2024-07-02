@@ -1,0 +1,57 @@
+name: rocket-chat
+services:
+  app:
+    image: rocket.chat:6.3.5
+    restart: unless-stopped
+    environment:
+      MONGO_OPLOG_URL: mongodb://db:27017/local
+    depends_on:
+      - db
+    ports:
+      - target: 3000
+        published: '3000'
+        protocol: tcp
+  db:
+    image: mongo:6.0
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    volumes:
+      - type: bind
+        source: /DATA/AppData/rocket-chat/mongo/data/configdb
+        target: /data/configdb
+      - type: bind
+        source: /DATA/AppData/rocket-chat/mongo/data/db
+        target: /data/db
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: Rocket-Chat is a customizable open source communications platform for organizations with high standards of data protection. It enables real-time conversations between colleagues, with other companies or with your customers, across devices on web, desktop or mobile.
+  tagline:
+    en_us: Customizable open-source communication platform with robust data protection standards.
+  developer: Rocket Chat
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/rocket-chat/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/rocket-chat/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/rocket-chat/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/rocket-chat/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/rocket-chat/thumbnail.jpg
+  title:
+    en_us: Rocket. Chat
+  tips:
+    before_install:
+      en_us: |
+        ### Note
+
+        After finished installing the Rocket. Chat app, wait for at least 1 to 5 minutes before opening the Web UI.
+
+        Opening the Web UI right after the installation will cause the Rocket. Chat app to crash and never recover which requires re-installing.
+  category: Chat
+  port_map: '3000'

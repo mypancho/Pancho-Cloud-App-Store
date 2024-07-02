@@ -1,0 +1,82 @@
+name: snipe-it
+services:
+  app:
+    image: linuxserver/snipe-it:6.1.2
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      APP_URL: ''
+      MYSQL_PORT_3306_TCP_ADDR: ''
+      MYSQL_PORT_3306_TCP_PORT: ''
+      MYSQL_DATABASE: ''
+      MYSQL_USER: ''
+      MYSQL_PASSWORD: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: APP_URL
+          description:
+            en_us: Hostname or IP and port if applicable, be sure to define https/http
+        - container: MYSQL_PORT_3306_TCP_ADDR
+          description:
+            en_us: Mysql hostname or IP to use
+        - container: MYSQL_PORT_3306_TCP_PORT
+          description:
+            en_us: Mysql port to use
+        - container: MYSQL_DATABASE
+          description:
+            en_us: Mysql database to use
+        - container: MYSQL_USER
+          description:
+            en_us: Mysql user to use
+        - container: MYSQL_PASSWORD
+          description:
+            en_us: Mysql password to use
+      volumes:
+        - container: /config
+          description:
+            en_us: Appdata
+      ports:
+        - container: '8080'
+          description:
+            en_us: Port
+    ports:
+      - target: 8080
+        published: 80
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/snipe-it/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Makes asset management easy. It was built by people solving real-world IT and asset management problems, and a solid UX has always been a top priority. Straightforward design and bulk actions mean getting things done faster.
+  tagline:
+    en_us: Simplified asset management with user-friendly design and efficiency.
+  developer: Snipe team
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/snipe-it/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/snipe-it/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/snipe-it/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/snipe-it/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/snipe-it/thumbnail.jpg
+  title:
+    en_us: Snipe it
+  category: Utility
+  project_url: https://github.com/snipe/snipe-it
+  port_map: '80'
