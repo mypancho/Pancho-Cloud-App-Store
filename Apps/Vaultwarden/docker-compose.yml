@@ -1,0 +1,52 @@
+name: vaultwarden
+services:
+  vaultwarden:
+    image: vaultwarden/server:1.29.2
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+    network_mode: bridge
+    ports:
+      - target: 80
+        published: "10380"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/data
+        target: /data
+    x-casaos:
+      ports:
+        - container: "80"
+          description:
+            en_us: WebUI HTTP Port
+      volumes:
+        - container: /data
+          description:
+            en_us: Vaultwarden data directory.
+    container_name: vaultwarden
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: vaultwarden
+  author: Mypancho.com
+  category: Utilities
+  description:
+    en_us: Alternative implementation of the Bitwarden server API written in Rust and compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.
+  developer: Daniel García
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Vaultwarden/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Vaultwarden/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Vaultwarden/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Vaultwarden/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Vaultwarden/thumbnail.jpg
+  tagline:
+    en_us: A self-hosted Bitwarden server
+  tips: {}
+  title:
+    en_us: Vaultwarden
+  index: /
+  port_map: "10380"

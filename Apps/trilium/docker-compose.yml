@@ -1,0 +1,42 @@
+name: trilium
+services:
+  app:
+    image: zadam/trilium:0.60.4
+    restart: unless-stopped
+    environment:
+      TRILIUM_DATA_DIR: /home/node/trilium-data
+    x-casaos:
+      envs:
+        - container: TRILIUM_DATA_DIR
+          description:
+            en_us: ''
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/data
+        target: /home/node/trilium-data
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: Trilium Notes is a hierarchical note taking application with focus on building large personal knowledge bases
+  tagline:
+    en_us: Hierarchical note-taking app for comprehensive knowledge bases.
+  developer: zadam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/trilium/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/trilium/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/trilium/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/trilium/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/trilium/thumbnail.jpg
+  title:
+    en_us: Trilium
+  category: Utility
+  port_map: '8080'

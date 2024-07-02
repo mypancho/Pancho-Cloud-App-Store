@@ -1,0 +1,71 @@
+# Configuration for traccar setup
+
+# Name of the traccar application
+name: traccar
+
+# Service definitions for the application
+services:
+  # Service name: app
+  app:
+    image: traccar/traccar:latest # Specifies the docker image to use for this service. Using the latest version of the traccar image.
+    container_name: traccar # Name of the container that will be created
+    hostname: traccar # Hostname of the container
+    restart: unless-stopped # Restart policy. The container will restart unless it's explicitly stopped.
+
+    ports: # Ports mapping from the host to the container
+      - "8080:8082" # Maps port 8080 on the host to port 8082 in the container
+      - "5000-5150:5000-5150" # Maps ports range 5000-5150 on the host to the same range in the container for TCP
+      - "5000-5150:5000-5150/udp" # Maps ports range 5000-5150 on the host to the same range in the container for UDP
+
+    volumes: # Defines volume mounts for the container
+      - "/DATA/AppData/traccar/logs:/opt/traccar/logs:rw" # Mounts the logs directory from the host to the container with read and write permissions
+      - "/DATA/AppData/traccar/traccar.xml:/opt/traccar/conf/traccar.xml:ro" # Mounts the traccar.xml config file from the host to the container with read-only permissions
+
+    x-casaos: # CasaOS specific configuration
+      volumes:
+        - container: /opt/traccar/logs
+          description:
+            en_us: "Container Path: /opt/traccar/logs"
+        - container: /opt/traccar/conf/traccar.xml
+          description:
+            en_us: "Container Path: /opt/traccar/conf/traccar.xml"
+      ports:
+        - container: "8082"
+          description:
+            en_us: "Container Port: 8082"
+        - container: "5000-5150"
+          description:
+            en_us: "Container Port: 5000-5150"
+
+# CasaOS specific configuration
+x-casaos:
+  # Supported CPU architectures for the application
+  architectures:
+    - amd64
+    - arm64
+  # Main service of the application
+  main: app
+  description:
+    # Description in English
+    en_us: Traccar is a free and open source modern GPS tracking system
+  tagline:
+    # Short description or tagline in English
+    en_us: Traccar is a modern GPS tracking system, open-source and free.
+  # Developer's name or identifier
+  developer: "traccar"
+  # Author of this configuration
+  author: Mypancho.com
+  # Icon for the application
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/traccar/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/traccar/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/traccar/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/traccar/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/traccar/thumbnail.jpg
+  title:
+    # Title in English
+    en_us: Traccar
+  # Application category
+  category: Utility
+  # Port mapping information
+  port_map: "8080"
