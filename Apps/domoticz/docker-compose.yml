@@ -1,0 +1,64 @@
+name: domoticz
+services:
+  app:
+    image: linuxserver/domoticz:2023.2.20230914
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      WEBROOT: ''
+      DBASE: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: WEBROOT
+          description:
+            en_us: Sets webroot to domoticz for usage with subfolder reverse proxy. Not needed unless reverse proxying.
+        - container: DBASE
+          description:
+            en_us: Sets path to database. Do not set unless you know what this does.
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+      - target: 6144
+        published: 6144
+        protocol: tcp
+      - target: 1443
+        published: 1443
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/domoticz/config
+        target: /config
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: 'A Home Automation System that lets you monitor and configure various devices like: Lights, Switches, various sensors/meters like Temperature, Rain, Wind, UV, Electra, Gas, Water and much more. Notifications/Alerts can be sent to any mobile device.'
+  tagline:
+    en_us: 'Home Automation System monitors and configures diverse devices conveniently'
+  developer: domoticzteam
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/domoticz/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/domoticz/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/domoticz/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/domoticz/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/domoticz/thumbnail.jpg
+  title:
+    en_us: Domoticz
+  category: Automation
+  project_url: https://www.domoticz.com
+  port_map: '8080'

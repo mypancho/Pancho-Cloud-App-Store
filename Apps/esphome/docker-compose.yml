@@ -1,0 +1,47 @@
+name: esphome
+services:
+  app:
+    image: esphome/esphome:2023.10
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    environment:
+      USERNAME: casaos
+      PASSWORD: casaos
+    volumes:
+      - type: bind
+        source: /DATA/AppData/esphome/config
+        target: /config
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+    - armhf
+  main: app
+  description:
+    en_us: ESPHome is an innovative system designed to streamline microcontroller control through straightforward yet potent configuration files. With this system, users can efficiently manage their microcontrollers and regulate them remotely via various Home Automation systems. It serves as a user-friendly platform, allowing for seamless integration and effective control of a wide array of devices. By leveraging ESPHome, users can establish a sophisticated and user-friendly control system for their microcontrollers with ease.
+  tagline:
+    en_us: Simplified microcontroller control system, accessible remotely via Home Automation.
+  developer: ESPHome
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/esphome/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/esphome/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/esphome/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/esphome/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/esphome/thumbnail.jpg
+  category: Automation
+  tips:
+    before_install:
+      en_us: |
+        | Label | Value |
+        | --- | --- |
+        | Username | `casaos` |
+        | Password | `casaos` |
+  title:
+    en_us: ESPHome
+  port_map: '6052'
