@@ -1,0 +1,68 @@
+name: your_spotify
+services:
+  app:
+    image: linuxserver/your_spotify:1.7.0
+    restart: unless-stopped
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      APP_URL: ''
+      SPOTIFY_PUBLIC: ''
+      SPOTIFY_SECRET: ''
+      CORS: ''
+      MONGO_ENDPOINT: ''
+    x-casaos:
+      envs:
+        - container: PUID
+          description:
+            en_us: for UserID
+        - container: PGID
+          description:
+            en_us: for GroupID
+        - container: TZ
+          description:
+            en_us: specify a timezone to use, see this list.
+        - container: APP_URL
+          description:
+            en_us: The protocol and hostname where the app will be accessed.
+        - container: SPOTIFY_PUBLIC
+          description:
+            en_us: Your Spotify application client ID.
+        - container: SPOTIFY_SECRET
+          description:
+            en_us: Your Spotify application secret.
+        - container: CORS
+          description:
+            en_us: Allowed CORS sources, set to all to allow any source.
+        - container: MONGO_ENDPOINT
+          description:
+            en_us: Set mongodb endpoint address/port.
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+      - target: 443
+        published: 443
+        protocol: tcp
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Your_spotify is a self-hosted application that tracks what you listen and offers you a dashboard to explore statistics about it! It's composed of a web server which polls the Spotify API every now and then and a web application on which you can explore your statistics.
+  tagline:
+    en_us: Self-hosted application tracking and displaying Spotify listening statistics.
+  developer: Spotify team
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/your_spotify/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/your_spotify/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/your_spotify/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/your_spotify/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/your_spotify/thumbnail.jpg
+  title:
+    en_us: Your_spotify
+  category: Utility
+  port_map: '80'

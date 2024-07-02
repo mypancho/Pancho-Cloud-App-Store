@@ -1,0 +1,76 @@
+name: wg-easy
+services:
+  wg-easy:
+    image: weejewel/wg-easy:7
+    restart: unless-stopped
+    network_mode: bridge
+    environment:
+      PASSWORD: casaos
+      WG_HOST: casaos.local
+      WG_PORT: "51820"
+      WG_DEFAULT_DNS: 1.1.1.1
+    x-casaos:
+      volumes:
+        - container: /etc/wireguard
+          description:
+            en_us: Contains device VPN config files.
+      ports:
+        - container: "51820"
+          description:
+            en_us: Wireguard VPN port
+        - container: "51821"
+          description:
+            en_us: WEB UI port
+    ports:
+      - target: 51820
+        published: "51820"
+        protocol: udp
+      - target: 51821
+        published: "51821"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/wireguard
+        target: /etc/wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+    container_name: wg-easy
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: wg-easy
+  description:
+    en_us: You have found the easiest way to install & manage WireGuard on any Linux host!
+  tagline:
+    en_us: WEB UI to manage WireGuard VPN.
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/WireGuardEasy/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/WireGuardEasy/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/WireGuardEasy/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/WireGuardEasy/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/WireGuardEasy/thumbnail.jpg
+  developer: WeejeWel
+  author: Mypancho.com
+  category: Network
+  tips:
+    before_install:
+      en_us: |
+        🔧 Settings
+
+        Default password: `casaos`
+
+        ⚠️ Warning!
+
+        You need to change at least change the mandatory parameter `WG_HOST` for this app to work properly.
+        It's value has to be a domain (or an IP address) that points to this server (accesible from WAN).
+
+        Same applies to the `WG_PORT` parameter. Change it to the port accessible from outside your LAN if it differs from the default 51820.
+  title:
+    en_us: WireGuard Easy
+  port_map: "51821"
