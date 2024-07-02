@@ -1,0 +1,52 @@
+name: stable-diffusion-webui
+services:
+  stable-diffusion-webui:
+    image: johnguan/stable-diffusion-webui:latest
+    runtime: nvidia
+    ipc: host
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          memory: 12G
+    network_mode: bridge
+    ports:
+      - target: 7860
+        published: "7860"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Stable-Diffusion-WebUI/models
+        target: /data/models
+      - type: bind
+        source: /DATA/AppData/Stable-Diffusion-WebUI/outputs
+        target: /data/outputs
+      - type: bind
+        source: /DATA/AppData/Stable-Diffusion-WebUI/config
+        target: /data/config
+    privileged: false
+    container_name: stable-diffusion-webui
+x-casaos:
+  architectures:
+    - amd64
+  main: stable-diffusion-webui
+  author: Mypancho.com
+  category: Developer
+  description:
+    en_us: Stable Diffusion WebUI is a browser interface for Stable Diffusion, an AI model that can generate images from text prompts or modify existing images with text prompts.
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Stable-Diffusion-WebUI/thumbnail.jpg
+  tagline:
+    en_us: Explore Stable Diffusion's potential through intuitive web UI.
+  scheme: http
+  store_app_id: stable-diffusion-webui
+  title:
+    en_us: Stable Diffusion WebUI
+  index: /
+  port_map: "7860"
