@@ -1,0 +1,54 @@
+name: alist
+services:
+  alist:
+    image: xhofe/alist:v3.28.0
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+    network_mode: bridge
+    ports:
+      - target: 5244
+        published: "5244"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/Panchocloud/$AppID/data
+        target: /opt/alist/data
+    x-casaos:
+      ports:
+        - container: "5244"
+          description:
+            en_us: WebUI HTTP Port
+      volumes:
+        - container: /opt/alist/data
+          description:
+            en_us: alist config directory.
+    container_name: alist
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  author: Mypancho.com
+  category: Cloud
+  description:
+    en_us: A file list program that supports multiple storage, powered by Gin and Solidjs.
+  developer: Xhofe
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Alist/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Alist/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Alist/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Alist/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/Alist/thumbnail.jpg
+  main: alist
+  port_map: "5244"
+  scheme: http
+  tagline:
+    en_us: A file list program that supports multiple storage
+  tips:
+    before_install:
+      en_us: After installation, please check the initial password in the container log (Settings - TopRight - Terminal and Logs - Logs).
+  title:
+    en_us: Alist

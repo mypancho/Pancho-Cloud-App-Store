@@ -1,0 +1,58 @@
+name: archivebox
+services:
+  app:
+    image: archivebox/archivebox:0.6
+    restart: unless-stopped
+    environment:
+      ALLOWED_HOSTS: '*'
+      MEDIA_MAX_SIZE: 500m
+      PUBLIC_INDEX: true
+      PUBLIC_SNAPSHOTS: true
+      PUBLIC_ADD_VIEW: true
+    x-casaos:
+      envs:
+        - container: ALLOWED_HOSTS
+          description:
+            en_us: ''
+        - container: MEDIA_MAX_SIZE
+          description:
+            en_us: ''
+        - container: PUBLIC_INDEX
+          description:
+            en_us: ''
+        - container: PUBLIC_SNAPSHOTS
+          description:
+            en_us: ''
+        - container: PUBLIC_ADD_VIEW
+          description:
+            en_us: ''
+    ports:
+      - target: 8000
+        published: 8002
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /DATA/AppData/$AppID/data
+        target: /data
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+    - arm64
+  main: app
+  description:
+    en_us: ArchiveBox is a powerful, self-hosted internet archiving solution to collect, save, and view sites you want to preserve offline.
+  tagline:
+    en_us: ArchiveBox: Self-hosted internet archiving for site preservation offline.
+  developer: Archivebox team
+  author: Mypancho.com
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/archivebox/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/archivebox/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/archivebox/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/archivebox/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/archivebox/thumbnail.jpg
+  title:
+    en_us: Archivebox
+  category: Network
+  port_map: '8002'
