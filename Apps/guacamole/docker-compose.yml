@@ -1,0 +1,119 @@
+# Name of the configuration: guacamole
+name: guacamole
+
+# Define the services required for the application
+services:
+  # guacd service configuration
+  guacd:
+    # Docker image to use for this service
+    image: guacamole/guacd
+    # Restart policy for the container
+    restart: always
+
+  # app service configuration
+  app:
+    image: guacamole/guacamole
+    restart: always
+    # Link this service to the guacd service
+    links:
+      - guacd
+    # Environment variables for the app service
+    environment:
+      - GUACD_HOSTNAME=guacd
+      - MYSQL_HOSTNAME=mysql
+      - MYSQL_DATABASE=guacamole_db
+      - MYSQL_USER=guacamole_user
+      - MYSQL_PASSWORD=some_password
+    # Map port 8090 on the host to port 8080 on the container
+    ports:
+      - 8090:8080
+
+    x-casaos: # CasaOS specific configuration
+      envs:
+        - container: GUACD_HOSTNAME
+          description:
+            en_us: Guacd hostname
+        - container: MYSQL_HOSTNAME
+          description:
+            en_us: MySQL hostname
+        - container: MYSQL_DATABASE
+          description:
+            en_us: MySQL database
+        - container: MYSQL_USER
+          description:
+            en_us: MySQL user
+        - container: MYSQL_PASSWORD
+          description:
+            en_us: MySQL password
+      ports:
+        - container: "8080"
+          description:
+            en_us: "Container Port: 8080"
+
+  # mysql service configuration
+  mysql:
+    image: mysql:5.7
+    restart: always
+    # Environment variables for the MySQL service
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
+      - MYSQL_DATABASE=guacamole_db
+      - MYSQL_USER=guacamole_user
+      - MYSQL_PASSWORD=some_password
+    # Volume mapping for persistent storage
+    volumes:
+      - /DATA/AppData/$AppID/mysql:/var/lib/mysql
+    x-casaos: # CasaOS specific configuration
+      envs:
+        - container: MYSQL_ROOT_PASSWORD
+          description:
+            en_us: MySQL root password
+        - container: MYSQL_DATABASE
+          description:
+            en_us: MySQL database
+        - container: MYSQL_USER
+          description:
+            en_us: MySQL user
+        - container: MYSQL_PASSWORD
+          description:
+            en_us: MySQL password
+      volumes:
+        - container: /var/lib/mysql
+          description:
+            en_us: "Container Path: /var/lib/mysql"
+      ports:
+        - container: "3306"
+          description:
+            en_us: "Container Port: 3306"
+
+# CasaOS specific configuration
+x-casaos:
+  # Supported CPU architectures for the application
+  architectures:
+    - amd64
+  # Main service of the application
+  main: app
+  # Application description in English
+  description:
+    en_us: Apache Guacamole is a clientless remote desktop gateway, allowing users to connect to various remote desktops without requiring client software installation. It supports standard protocols like VNC, RDP, and SSH and can be easily deployed using common web browsers. Maintained by the Apache Software Foundation, it ensures secure connections and offers a seamless remote desktop experience across different platforms, providing convenient access to remote systems from anywhere in the world.
+  # Short description or tagline in English
+  tagline:
+    en_us: Apache Guacamole is a clientless remote desktop gateway.
+  # Developer's name or identifier
+  developer: "Guacamole team"
+  # Author of this configuration
+  author: Mypancho.com
+  # Icon for the application
+  icon: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/guacamole/icon.png
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/guacamole/screenshot-1.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/guacamole/screenshot-2.jpg
+    - https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/guacamole/screenshot-3.jpg
+  thumbnail: https://cdn.jsdelivr.net/gh/mypancho/Pancho-Cloud-App-Store@main/Apps/guacamole/thumbnail.jpg
+  # Title of the application in English
+  title:
+    en_us: Guacamole
+  # Application category
+  category: Utility
+  # Port mapping information
+  port_map: "8090"
